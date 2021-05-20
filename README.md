@@ -22,7 +22,7 @@ rumee = WeezScraper('RumeeAhmed', 'PS')
 
 To run the program use the scrape method. This is designed to scrape all the daily data from the Warzone
 tracker website and return the raw data with minimal user input. Simply execute the scrape method and let
-the boys drop in and claim the GN.
+the boys drop in and claim the **GN**.
 ```python
 rumee.scrape()
 ```
