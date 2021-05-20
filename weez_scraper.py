@@ -28,11 +28,12 @@ class WeezScraper(webdriver.Chrome):
         self.username = username
         self.platform = platform
         self.make_request()
+        self.search_warzone()
 
     def make_request(self):
         """
-        Perform a get request on the
-        :return:
+        Perform a get request on self._url.
+        :return: None
         """
         self.get(self._url)
         self._bypass_gpdr()
@@ -40,7 +41,7 @@ class WeezScraper(webdriver.Chrome):
     def _bypass_gpdr(self):
         """
         The first page is often a GDPR policy page, this method will click and then suppress the page.
-        :return:
+        :return: None
         """
 
         try:
@@ -52,5 +53,36 @@ class WeezScraper(webdriver.Chrome):
         except NoSuchElementException:
             pass
 
+    def search_warzone(self):
+        """
+        Perform a search on the Warzone website with self.username and self.platform correct gaming platform to go to
+        the users stats page.
+        :return: None
+        """
 
-scraper = WeezScraper('RumeeAhmed', 'PS4')
+        self.find_element_by_xpath(
+            '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div[1]/div/div[2]'
+        ).click()
+
+        if self.platform == 'PS':
+            self.find_element_by_xpath(
+                '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div[1]/div/div[2]/ul/'
+                'li[1]/span'
+            ).click()
+
+        elif self.platform == 'activision':
+
+            self.find_element_by_xpath(
+                '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div[1]/div/div[2]/ul/'
+                'li[2]/span'
+            ).click()
+
+        self.implicitly_wait(5)
+
+        search = self.find_element_by_tag_name('input')
+        search.clear()
+        search.send_keys(self.username)
+        search.send_keys(Keys.RETURN)
+
+
+scraper = WeezScraper('RumeeAhmed', 'PS')
