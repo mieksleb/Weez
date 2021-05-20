@@ -12,8 +12,8 @@ class WeezScraper(webdriver.Chrome):
     """
     Object that will scrape daily Warzone data for a given player.
     """
-    # options = Options()
-    # options.headless = True
+    options = Options()
+    options.headless = False
     _driver_path = '/Users/rumeeahmed/Documents/Weez/chromedriver'
     _url = 'https://cod.tracker.gg/warzone'
 
@@ -24,21 +24,22 @@ class WeezScraper(webdriver.Chrome):
         :param platform: The platform the username is associated with. For now only use use usernames that belong to
         the PlayStation Network or the Activision Network.
         """
-        super().__init__(self._driver_path)
+        super().__init__(self._driver_path, options=self.options)
         self.username = username
         self.platform = platform
         self.make_request()
         self.search_warzone()
+        self.scrape_stats()
 
     def make_request(self):
         """
         Perform a get request on self._url.
-        :return: None
+        :return: Open Chrome browser and navigate to the specified url
         """
         self.get(self._url)
-        self._bypass_gpdr()
+        self._bypass_gdpr()
 
-    def _bypass_gpdr(self):
+    def _bypass_gdpr(self):
         """
         The first page is often a GDPR policy page, this method will click and then suppress the page.
         :return: None
@@ -71,7 +72,6 @@ class WeezScraper(webdriver.Chrome):
             ).click()
 
         elif self.platform == 'activision':
-
             self.find_element_by_xpath(
                 '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div[1]/div/div[2]/ul/'
                 'li[2]/span'
@@ -83,6 +83,13 @@ class WeezScraper(webdriver.Chrome):
         search.clear()
         search.send_keys(self.username)
         search.send_keys(Keys.RETURN)
+
+    def scrape_stats(self):
+        """
+        Scrape the stats from the current session
+        :return: Selenium object containing the HTML data for the current sessions stats.
+        """
+        stats = self.find_element_by_class_name('trn-gamereport-list__group')
 
 
 scraper = WeezScraper('RumeeAhmed', 'PS')
