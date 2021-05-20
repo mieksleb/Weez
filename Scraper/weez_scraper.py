@@ -14,7 +14,7 @@ class WeezScraper(webdriver.Chrome):
     """
     options = Options()
     options.headless = False
-    _driver_path = '/Users/rumeeahmed/Documents/Weez/chromedriver'
+    _driver_path = '/Users/rumeeahmed/Documents/Weez/Assets/chromedriver'
     _url = 'https://cod.tracker.gg/warzone'
 
     def __init__(self, username: str, platform: str):
