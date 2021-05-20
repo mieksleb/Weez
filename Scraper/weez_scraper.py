@@ -5,6 +5,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
+import os
+from pathlib import Path
 import time
 
 
@@ -12,9 +14,11 @@ class WeezScraper(webdriver.Chrome):
     """
     Object that will scrape daily Warzone data for a given player.
     """
+
+    _path = Path(os.getcwd())
     options = Options()
     options.headless = False
-    _driver_path = '/Users/rumeeahmed/Documents/Weez/Assets/chromedriver'
+    _driver_path = f'{_path.parent}/Assets/chromedriver'
     _url = 'https://cod.tracker.gg/warzone'
 
     def __init__(self, username: str, platform: str):
@@ -133,4 +137,4 @@ class WeezScraper(webdriver.Chrome):
                 kill_stats.append((label, value))
 
 
-scraper = WeezScraper('RumeeAhmed', 'PS')
+rumee = WeezScraper('RumeeAhmed', 'PS')
