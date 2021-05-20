@@ -2,7 +2,7 @@
 Welcome to WeezToolz. If you have found this, you are almost certainly lost. Please turn back now otherwise
 go straight to the Gulag. Do not collect 200.
 
-![Weez](assets\doesanyoneneedthis.jpg)
+![Weez](assets/doesanyoneneedthis.jpg)
 
 
 ---
