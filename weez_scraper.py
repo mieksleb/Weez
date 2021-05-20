@@ -90,6 +90,47 @@ class WeezScraper(webdriver.Chrome):
         :return: Selenium object containing the HTML data for the current sessions stats.
         """
         stats = self.find_element_by_class_name('trn-gamereport-list__group')
+        title_stats = stats.find_element_by_class_name('session-header')
+        date_matches = title_stats.find_element_by_class_name('session-header__title').text
+
+        date, matches_played = date_matches.split('\n')
+        matches_played = int(matches_played)
+
+        generic_rankings = title_stats.find_element_by_class_name('session-header__summary').text
+        wins, top_5 = generic_rankings.split('\n')
+
+        wins = wins[0]
+        top_5 = top_5[0]
+
+        overall_stats = []
+        overall_stats_raw = stats.find_elements_by_class_name('session-header__stats-stat')
+        for stat in overall_stats_raw:
+            try:
+                label = stat.find_element_by_class_name('session-header__label').text
+                value = stat.find_element_by_class_name('session-header__value').text
+                overall_stats.append((label, value))
+            except NoSuchElementException:
+                pass
+
+        match_stats = []
+        for i in range(matches_played):
+            match = stats.find_element_by_xpath(
+                f'/html/body/div[1]/div[2]/div[2]/div/main/div[2]/div[3]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[2]'
+                f'/div[{i +1}]'
+            )
+
+            position = match.find_element_by_class_name('match-row__placement').text
+            damage_dealt_raw = match.find_element_by_class_name('match-row__damage')
+            damage_dealt = damage_dealt_raw.find_element_by_class_name('match-row__value')
+            damage_taken_raw = match.find_element_by_class_name('match-row__damage--taken')
+            damage_taken = damage_taken_raw.find_element_by_class_name('match-row__value')
+
+            kill_stats = []
+            kill_stats_raw = match.find_elements_by_class_name('match-row__stats-stat')
+            for stat in kill_stats_raw:
+                label = stat.find_element_by_class_name('match-row__label').text
+                value = stat.find_element_by_class_name('match-row__value').text
+                kill_stats.append((label, value))
 
 
 scraper = WeezScraper('RumeeAhmed', 'PS')
