@@ -16,10 +16,11 @@ class WeezScraper(webdriver.Chrome):
     """
 
     _path = Path(os.getcwd())
-    options = Options()
-    options.headless = False
     _driver_path = f'{_path.parent}/Assets/chromedriver'
     _url = 'https://cod.tracker.gg/warzone'
+
+    options = Options()
+    options.headless = False
 
     def __init__(self, username: str, platform: str):
         """
@@ -31,11 +32,8 @@ class WeezScraper(webdriver.Chrome):
         super().__init__(self._driver_path, options=self.options)
         self.username = username
         self.platform = platform.lower()
-        self.make_request()
-        self.search_warzone()
-        self.scrape_stats()
 
-    def make_request(self):
+    def _make_request(self):
         """
         Perform a get request on self._url.
         :return: Open Chrome browser and navigate to the specified url
@@ -58,7 +56,7 @@ class WeezScraper(webdriver.Chrome):
         except NoSuchElementException:
             pass
 
-    def search_warzone(self):
+    def _search_warzone(self):
         """
         Perform a search on the Warzone website with self.username and self.platform correct gaming platform to go to
         the users stats page.
@@ -88,7 +86,7 @@ class WeezScraper(webdriver.Chrome):
         search.send_keys(self.username)
         search.send_keys(Keys.RETURN)
 
-    def scrape_stats(self):
+    def _scrape_stats(self):
         """
         Scrape the stats from the current session
         :return: Selenium object containing the HTML data for the current sessions stats.
@@ -136,5 +134,18 @@ class WeezScraper(webdriver.Chrome):
                 value = stat.find_element_by_class_name('match-row__value').text
                 kill_stats.append((label, value))
 
+    def _scrape_individual_match_stats(self):
+        pass
+
+    def scrape(self):
+        """
+        Public method to execute all the protected methods and then scrape the stats.
+        :return: Players Warzone stats
+        """
+        self._make_request()
+        self._search_warzone()
+        self._scrape_stats()
+
 
 rumee = WeezScraper('RumeeAhmed', 'PS')
+rumee.scrape()
