@@ -9,8 +9,9 @@ go straight to the Gulag. Do not collect 200.
 ### WeezScraper
 WeezScraper is the object responsible for scraping a players stats for their most recent session. This class
 is a subclass of the driver.Chrome object from the Selenium library. The first two parameters required when
-the class is instantiated is the players' username, and the gaming platform the player belongs to. For now
-only PlayStation and Activision is supported.
+the class is instantiated are the players' username, and the gaming platform the player belongs to. For now
+only PlayStation and Activision is supported. Acceptable strings for the `platform` parameter are `PS` and
+`activision`.
 
 ```python
 rumee = WeezScraper('RumeeAhmed', 'PS')

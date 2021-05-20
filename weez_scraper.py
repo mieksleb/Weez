@@ -26,7 +26,7 @@ class WeezScraper(webdriver.Chrome):
         """
         super().__init__(self._driver_path, options=self.options)
         self.username = username
-        self.platform = platform
+        self.platform = platform.lower()
         self.make_request()
         self.search_warzone()
         self.scrape_stats()
