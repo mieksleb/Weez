@@ -5,9 +5,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
-import os
 from pathlib import Path
-import time
+import os
 
 
 class WeezScraper(webdriver.Chrome):
@@ -25,9 +24,10 @@ class WeezScraper(webdriver.Chrome):
     def __init__(self, username: str, platform: str):
         """
 
-        :param username: The username for the player in question.
-        :param platform: The platform the username is associated with. For now only use use usernames that belong to
-        the PlayStation Network or the Activision Network.
+        :param username: The username of the player in question.
+        :param platform: The gaming platform the username is associated with. For now only use use usernames that belong
+        to the PlayStation Network or the Activision Network. Acceptable strings for this parameters are `PS` and
+        `Activision`
         """
         super().__init__(self._driver_path, options=self.options)
         self.username = username
@@ -36,7 +36,7 @@ class WeezScraper(webdriver.Chrome):
     def _make_request(self):
         """
         Perform a get request on self._url.
-        :return: Open Chrome browser and navigate to the specified url
+        :return: Open Chrome browser and navigate to self._url.
         """
         self.get(self._url)
         self._bypass_gdpr()
@@ -58,8 +58,8 @@ class WeezScraper(webdriver.Chrome):
 
     def _search_warzone(self):
         """
-        Perform a search on the Warzone website with self.username and self.platform correct gaming platform to go to
-        the users stats page.
+        Perform a search on the Warzone website with self.username and self.platform which then takes the browser to
+        that users stats page.
         :return: None
         """
 
@@ -67,7 +67,7 @@ class WeezScraper(webdriver.Chrome):
             '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div[1]/div/div[2]'
         ).click()
 
-        if self.platform == 'PS':
+        if self.platform == 'ps':
             self.find_element_by_xpath(
                 '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div[1]/div/div[2]/ul/'
                 'li[1]/span'
@@ -88,7 +88,7 @@ class WeezScraper(webdriver.Chrome):
 
     def _scrape_stats(self):
         """
-        Scrape the stats from the current session
+        Scrape the stats from the first page for the current gaming session.
         :return: Selenium object containing the HTML data for the current sessions stats.
         """
         stats = self.find_element_by_class_name('trn-gamereport-list__group')
@@ -134,13 +134,16 @@ class WeezScraper(webdriver.Chrome):
                 value = stat.find_element_by_class_name('match-row__value').text
                 kill_stats.append((label, value))
 
+            detail_button = stats.find_element_by_class_name('match-row__link')
+            self._scrape_individual_match_stats()
+
     def _scrape_individual_match_stats(self):
         pass
 
     def scrape(self):
         """
         Public method to execute all the protected methods and then scrape the stats.
-        :return: Players Warzone stats
+        :return: Players' Warzone stats.
         """
         self._make_request()
         self._search_warzone()
