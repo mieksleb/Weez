@@ -1,5 +1,3 @@
-import time
-
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -117,19 +115,19 @@ class WeezScraper(webdriver.Chrome):
             except NoSuchElementException:
                 pass
 
-        self.match_stats = {}
+        self.match_stats = []
         for i in range(matches_played):
             self.implicitly_wait(5)
             match = self.find_element_by_class_name('trn-gamereport-list__group-entries')
 
             match_id = f'{date}-{i + 1}'
             stat_dict = {'Match ID': match_id}
-            self.match_stats['Matches'] = [stat_dict]
+            self.match_stats.append(stat_dict)
 
             buttons = match.find_elements_by_class_name('match-row__link')
             buttons[i].click()
             extra_stats = self._scrape_individual_match_stats()
-            print(extra_stats)
+            self.match_stats[i].update(extra_stats)
 
     def _scrape_individual_match_stats(self):
         """
@@ -137,11 +135,8 @@ class WeezScraper(webdriver.Chrome):
         :return: Dictionary containing the detailed match stats
         """
         self.implicitly_wait(5)
-        self.implicitly_wait(5)
 
-        active_team_table = self.find_element_by_class_name(
-            'team--highlight'
-        )
+        active_team_table = self.find_element_by_class_name('team--highlight')
 
         position_raw = active_team_table.find_element_by_class_name('placement').text
         position, time_played = position_raw.split('\n')
@@ -169,3 +164,4 @@ class WeezScraper(webdriver.Chrome):
         self._make_request()
         self._search_warzone()
         self._scrape_stats()
+        self.quit()
