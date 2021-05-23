@@ -105,18 +105,21 @@ class WeezScraper(webdriver.Chrome):
         wins = wins[0]
         top_5 = top_5[0]
 
-        overall_stats = []
+        self.overall_stats = {}
         self.implicitly_wait(5)
         overall_stats_raw = stats.find_elements_by_class_name('session-header__stats-stat')
         for stat in overall_stats_raw:
             try:
                 label = stat.find_element_by_class_name('session-header__label').text
                 value = stat.find_element_by_class_name('session-header__value').text
-                overall_stats.append((label, value))
+                overall_stats[label] = value
             except NoSuchElementException:
                 pass
 
-        match_stats = []
+        overall_stats['Wins'] = wins
+        overall_stats['Top 5'] = top_5
+        print(overall_stats)
+        match_stats = {}
         for i in range(matches_played):
             match = stats.find_element_by_xpath(
                 f'/html/body/div[1]/div[2]/div[2]/div/main/div[2]/div[3]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[2]'
@@ -129,13 +132,16 @@ class WeezScraper(webdriver.Chrome):
             damage_taken_raw = match.find_element_by_class_name('match-row__damage--taken')
             damage_taken = damage_taken_raw.find_element_by_class_name('match-row__value').text
 
+            match_stats['Position'] = position
+
             kill_stats_raw = match.find_elements_by_class_name('match-row__stats-stat')
             for stat in kill_stats_raw:
                 label = stat.find_element_by_class_name('match-row__label').text
                 value = stat.find_element_by_class_name('match-row__value').text
 
-                match_stats.append((position, damage_dealt, damage_taken, label, value))
+                match_stats[label] = value
 
+            print(match_stats)
             self.find_element_by_class_name('match-row__link').click()
             extra_stats = self._scrape_individual_match_stats()
 
