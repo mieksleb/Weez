@@ -27,9 +27,9 @@ the boys drop in and claim the **GN**.
 rumee.scrape()
 ```
 
-The scrape method will create two attributes that is a dictionary object which contains the current
-session's data. `overall_stats` contains the collated data for all the games played in the current
-session. `match_stats` contains the data for each match played during the session.
+The scrape method will create two attributes containing the players' data. `overall_stats` is a dictionary object that 
+contains the collated data for all the games played in the current session. `match_stats` is a list object containing 
+a dictionary for each match played. The dictionaries contain detailed breakdowns of individual match statistics.
 
 ---
 
