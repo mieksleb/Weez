@@ -1,3 +1,5 @@
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -118,21 +120,16 @@ class WeezScraper(webdriver.Chrome):
         self.match_stats = {}
         for i in range(matches_played):
             self.implicitly_wait(5)
-            match = stats.find_element_by_xpath(
-                f'//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div[3]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[2]/'
-                f'div[{i + 1}]'
-            )
+            match = self.find_element_by_class_name('trn-gamereport-list__group-entries')
 
-            position = match.find_element_by_class_name('match-row__placement').text
             match_id = f'{date}-{i + 1}'
-            stat_dict = {'Match ID': match_id, 'Position': position}
+            stat_dict = {'Match ID': match_id}
             self.match_stats['Matches'] = [stat_dict]
 
-            self.implicitly_wait(5)
-            match.find_element_by_class_name('match-row__link').click()
+            buttons = match.find_elements_by_class_name('match-row__link')
+            buttons[i].click()
             extra_stats = self._scrape_individual_match_stats()
-            self.match_stats['Matches'][i].update(extra_stats)
-            print(self.match_stats)
+            print(extra_stats)
 
     def _scrape_individual_match_stats(self):
         """
@@ -143,18 +140,18 @@ class WeezScraper(webdriver.Chrome):
         detailed_match_stats = {}
         self.implicitly_wait(5)
 
-        active_team_table = self.find_element_by_class_name('teams')
-        active_team_tables = active_team_table.find_element_by_xpath(
+        active_team_table = self.find_element_by_xpath(
             '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]'
         )
-        active_player = active_team_tables.find_element_by_xpath(
-            '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]/div[2]/div[4]/div'
-        )
 
-        active_player.find_element_by_xpath(
-            '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]/div[2]/div[4]/div/div[3]'
+        position = active_team_table.find_element_by_class_name('placement').text
+        detailed_match_stats['Position'] = position
+
+        active_player = active_team_table.find_element_by_class_name('feature-hint')
+        active_player.find_element_by_class_name(
+            'button'
         ).click()
-
+        print('here2')
         left = active_player.find_element_by_xpath(
             '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]/div[2]/div[4]/div[2]/div[1]'
         )
