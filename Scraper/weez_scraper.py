@@ -137,25 +137,21 @@ class WeezScraper(webdriver.Chrome):
         :return: Dictionary containing the detailed match stats
         """
         self.implicitly_wait(5)
-        detailed_match_stats = {}
         self.implicitly_wait(5)
 
-        active_team_table = self.find_element_by_xpath(
-            '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]'
+        active_team_table = self.find_element_by_class_name(
+            'team--highlight'
         )
 
-        position = active_team_table.find_element_by_class_name('placement').text
-        detailed_match_stats['Position'] = position
+        position_raw = active_team_table.find_element_by_class_name('placement').text
+        position, time_played = position_raw.split('\n')
 
-        active_player = active_team_table.find_element_by_class_name('feature-hint')
-        active_player.find_element_by_class_name(
-            'button'
-        ).click()
-        print('here2')
-        left = active_player.find_element_by_xpath(
-            '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]/div[2]/div[4]/div[2]/div[1]'
-        )
-        player_stats = left.find_elements_by_class_name('stat')
+        detailed_match_stats = {'Position': position, 'Time Played': time_played}
+
+        active_player = active_team_table.find_element_by_class_name('player-header--selected')
+        active_player.find_element_by_class_name('button').click()
+        left_stat_pane = active_team_table.find_element_by_class_name('left')
+        player_stats = left_stat_pane.find_elements_by_class_name('stat')
 
         for stat in player_stats:
             raw_stat = stat.text
@@ -173,7 +169,3 @@ class WeezScraper(webdriver.Chrome):
         self._make_request()
         self._search_warzone()
         self._scrape_stats()
-
-
-rumee = WeezScraper('RumeeAhmed', 'PS')
-rumee.scrape()
