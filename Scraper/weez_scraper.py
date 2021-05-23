@@ -1,5 +1,3 @@
-import time
-
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -8,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 from pathlib import Path
+import time
 import os
 
 
@@ -135,19 +134,20 @@ class WeezScraper(webdriver.Chrome):
                 label = stat.find_element_by_class_name('match-row__label').text
                 value = stat.find_element_by_class_name('match-row__value').text
 
-                extra_stats = self._scrape_individual_match_stats()
-                match_stats.append((position, damage_dealt, damage_taken, label, value, extra_stats))
+                match_stats.append((position, damage_dealt, damage_taken, label, value))
+
+            self.find_element_by_class_name('match-row__link').click()
+            extra_stats = self._scrape_individual_match_stats()
 
     def _scrape_individual_match_stats(self):
         self.implicitly_wait(5)
-        extra_stats = []
-        self.find_element_by_class_name('match-row__link').click()
+        detailed_match_stats = {}
         time.sleep(10)
         active_team_table = self.find_element_by_class_name('teams')
         active_team_tables = active_team_table.find_element_by_xpath(
             '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]'
         )
-        active_player = active_team_table.find_element_by_xpath(
+        active_player = active_team_tables.find_element_by_xpath(
             '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]/div[2]/div[4]/div'
         )
 
@@ -155,17 +155,18 @@ class WeezScraper(webdriver.Chrome):
             '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]/div[2]/div[4]/div/div[3]'
         ).click()
 
-        player_stats = active_player.find_elements_by_xpath(
+        left = active_player.find_element_by_xpath(
             '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]/div[2]/div[4]/div[2]/div[1]'
         )
+        player_stats = left.find_elements_by_class_name('stat')
 
         for stat in player_stats:
             raw_stat = stat.text
-            label = raw_stat.split('\n')
-            print(label)
+            label, value = raw_stat.split('\n')
+            detailed_match_stats[label] = value
 
         self.back()
-        return extra_stats
+        return detailed_match_stats
 
     def scrape(self):
         """
