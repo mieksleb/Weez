@@ -5,7 +5,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
-from pathlib import Path
 import os
 
 
@@ -14,8 +13,8 @@ class WeezScraper(webdriver.Chrome):
     Object that will scrape daily Warzone data for a given player.
     """
 
-    _path = Path(os.getcwd())
-    _driver_path = f'{_path.parent}/Assets/chromedriver'
+    _path = os.getcwd()
+    _driver_path = f'{_path}/Assets/chromedriver'
     _url = 'https://cod.tracker.gg/warzone'
 
     options = Options()
@@ -118,28 +117,22 @@ class WeezScraper(webdriver.Chrome):
 
         self.match_stats = {}
         for i in range(matches_played):
+            self.implicitly_wait(5)
             match = stats.find_element_by_xpath(
-                f'/html/body/div[1]/div[2]/div[2]/div/main/div[2]/div[3]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[2]'
-                f'/div[{i +1}]'
+                f'//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div[3]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[2]/'
+                f'div[{i + 1}]'
             )
 
             position = match.find_element_by_class_name('match-row__placement').text
-            damage_dealt_raw = match.find_element_by_class_name('match-row__damage')
-            damage_dealt = damage_dealt_raw.find_element_by_class_name('match-row__value').text
-            damage_taken_raw = match.find_element_by_class_name('match-row__damage--taken')
-            damage_taken = damage_taken_raw.find_element_by_class_name('match-row__value').text
+            match_id = f'{date}-{i + 1}'
+            stat_dict = {'Match ID': match_id, 'Position': position}
+            self.match_stats['Matches'] = [stat_dict]
 
-            self.match_stats['Position'] = position
-
-            kill_stats_raw = match.find_elements_by_class_name('match-row__stats-stat')
-            for stat in kill_stats_raw:
-                label = stat.find_element_by_class_name('match-row__label').text
-                value = stat.find_element_by_class_name('match-row__value').text
-
-                self.match_stats[label] = value
-
-            self.find_element_by_class_name('match-row__link').click()
+            self.implicitly_wait(5)
+            match.find_element_by_class_name('match-row__link').click()
             extra_stats = self._scrape_individual_match_stats()
+            self.match_stats['Matches'][i].update(extra_stats)
+            print(self.match_stats)
 
     def _scrape_individual_match_stats(self):
         """
@@ -183,3 +176,7 @@ class WeezScraper(webdriver.Chrome):
         self._make_request()
         self._search_warzone()
         self._scrape_stats()
+
+
+rumee = WeezScraper('RumeeAhmed', 'PS')
+rumee.scrape()
