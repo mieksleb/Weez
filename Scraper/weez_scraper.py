@@ -1,3 +1,5 @@
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -105,6 +107,7 @@ class WeezScraper(webdriver.Chrome):
         top_5 = top_5[0]
 
         overall_stats = []
+        self.implicitly_wait(5)
         overall_stats_raw = stats.find_elements_by_class_name('session-header__stats-stat')
         for stat in overall_stats_raw:
             try:
@@ -123,22 +126,46 @@ class WeezScraper(webdriver.Chrome):
 
             position = match.find_element_by_class_name('match-row__placement').text
             damage_dealt_raw = match.find_element_by_class_name('match-row__damage')
-            damage_dealt = damage_dealt_raw.find_element_by_class_name('match-row__value')
+            damage_dealt = damage_dealt_raw.find_element_by_class_name('match-row__value').text
             damage_taken_raw = match.find_element_by_class_name('match-row__damage--taken')
-            damage_taken = damage_taken_raw.find_element_by_class_name('match-row__value')
+            damage_taken = damage_taken_raw.find_element_by_class_name('match-row__value').text
 
-            kill_stats = []
             kill_stats_raw = match.find_elements_by_class_name('match-row__stats-stat')
             for stat in kill_stats_raw:
                 label = stat.find_element_by_class_name('match-row__label').text
                 value = stat.find_element_by_class_name('match-row__value').text
-                kill_stats.append((label, value))
 
-            detail_button = stats.find_element_by_class_name('match-row__link')
-            self._scrape_individual_match_stats()
+                extra_stats = self._scrape_individual_match_stats()
+                match_stats.append((position, damage_dealt, damage_taken, label, value, extra_stats))
 
     def _scrape_individual_match_stats(self):
-        pass
+        self.implicitly_wait(5)
+        extra_stats = []
+        self.find_element_by_class_name('match-row__link').click()
+        time.sleep(10)
+        active_team_table = self.find_element_by_class_name('teams')
+        active_team_tables = active_team_table.find_element_by_xpath(
+            '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]'
+        )
+        active_player = active_team_table.find_element_by_xpath(
+            '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]/div[2]/div[4]/div'
+        )
+
+        active_player.find_element_by_xpath(
+            '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]/div[2]/div[4]/div/div[3]'
+        ).click()
+
+        player_stats = active_player.find_elements_by_xpath(
+            '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div/div/div[5]/div/div[1]/div[2]/div[4]/div[2]/div[1]'
+        )
+
+        for stat in player_stats:
+            raw_stat = stat.text
+            label = raw_stat.split('\n')
+            print(label)
+
+        self.back()
+        return extra_stats
 
     def scrape(self):
         """
