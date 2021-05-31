@@ -38,6 +38,7 @@ class WeezScraper(webdriver.Chrome):
         :return: Open Chrome browser and navigate to self._url.
         """
         self.get(self._url)
+        self._bypass_personal_data_request()
         self._bypass_gdpr()
 
     def _bypass_gdpr(self):
@@ -53,6 +54,21 @@ class WeezScraper(webdriver.Chrome):
             button.click()
 
         except NoSuchElementException:
+            pass
+
+    def _bypass_personal_data_request(self):
+        """
+        The first page is often a GDPR policy page, this method will click and then suppress the page.
+        :return: None
+        """
+
+        try:
+            button = WebDriverWait(self, 10).until(
+                EC.presence_of_element_located((By.LINK_TEXT, 'Continue to Site'))
+            )
+            button.click()
+
+        except Exception:
             pass
 
     def _search_warzone(self):
