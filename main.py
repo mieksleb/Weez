@@ -1,24 +1,65 @@
 from Scraper.weez_scraper import WeezScraper
+from Analysis_Tools.weez_reader import player
+from Analysis_Tools.weez_analysis import get_sum_dict
+from Analysis_Tools.weez_analysis import damage_gn
+from Analysis_Tools.weez_analysis import gn_judgement
+
 import pickle
 
-# rumee = WeezScraper('RumeeAhmed', 'PS')
-# rumee.scrape()
-# print(rumee.overall_stats)
-# print(rumee.match_stats)
+dict_list = []
 
-# with open('overall_stats', 'wb') as overall_file:
-#     pickle.dump(rumee.overall_stats, overall_file)
+rumee_dict = {}
+rumee_dict['name'] = 'Captain Ahmed'
+rumee_dict['game_name'] = 'RumeeAhmed'
+rumee_dict['platform'] = 'PSN'
+
+mike_dict = {}
+mike_dict['name'] = 'The Golden God'
+mike_dict['game_name'] = 'buttpunch69#516430'
+mike_dict['platform'] = 'activision'
+
+neen_dict = {}
+neen_dict['name'] = 'Cheen'
+neen_dict['game_name'] = 'buttpunch69#516430'
+neen_dict['platform'] = 'activision'
+
+dict_list.append(rumee_dict)
+dict_list.append(mike_dict)
+# dict_list.append(neen_dict)
+
+chumby = WeezScraper('RumeeAhmed','PSN')
+chumby.scrape()
+
+player_list = []
+# for dicto in dict_list:
+#     print(dicto)
+#     player = player(dicto['name'])
+#     scrape = WeezScraper(dicto['game_name'], dicto['platform'])
+#     scrape.scrape()
 #
-# with open('match_stats', 'wb') as match_file:
-#     pickle.dump(rumee.match_stats, match_file)
-
-
-with open('overall_stats', 'rb') as overall_file:
-    file = pickle.load(overall_file)
-    print(file)
-
-with open('match_stats', 'rb') as match_file:
-    file = pickle.load(match_file)
-    for i in file:
-        print(i)
-        print()
+#     with open(player.playername+'overall_stats', 'wb') as overall_file:
+#          pickle.dump(scrape.overall_stats, overall_file)
+#
+#     with open('match_stats', 'wb') as match_file:
+#          pickle.dump(scrape.match_stats, match_file)
+#
+#     matches = open('match_stats', 'rb')
+#     matches_dict = pickle.load(matches)
+#     overall = open('overall_stats', 'rb')
+#     overall_dict = pickle.load(overall)
+#     print(matches_dict)
+#     sum_dict = get_sum_dict(player,matches_dict)
+#     player.add_dicts(overall_dict, sum_dict)
+#
+#     player.gn = damage_gn(player)
+#     player.judge = gn_judgement(player)
+#
+#
+#     matches.close()
+#     overall.close()
+#
+#     player_list.append(player)
+#     player.reset()
+#
+#     print(player_list[0])
+#     print(player_list[1])
