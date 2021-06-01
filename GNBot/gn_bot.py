@@ -1,6 +1,7 @@
+import os
+import time
 import discord
 from discord.ext import commands, tasks
-import time
 
 
 class GNBot(commands.Cog):
@@ -8,7 +9,7 @@ class GNBot(commands.Cog):
     Bot object that handles actions on Discord. The primary function is to announce a players judgment in the voice
     channel.
     """
-    token = 'Nzk3NTkzNjY3NDk2ODM3MTMx.X_ou_A.eqdwD2xrAAIm1PJNkEmxZfVFCsY'
+    token = os.environ.get('DISCORD_KEY')
 
     def __init__(self, bot):
         self.bot = bot
@@ -22,7 +23,7 @@ class GNBot(commands.Cog):
         print('Bot online')
 
     @commands.command()
-    async def hello(self, ctx,):
+    async def gn(self, ctx, command):
         """
         Announce judgment to the voice channel.
         :param ctx: discord context parameter
@@ -32,7 +33,7 @@ class GNBot(commands.Cog):
         await voice_channel.connect()
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         try:
-            voice.play(discord.FFmpegPCMAudio("dant.mp3"))
+            voice.play(discord.FFmpegPCMAudio(f"{command}.mp3"))
         except PermissionError:
             await ctx.send('Wait for the current playing music to end or use the stop command')
             return
