@@ -13,22 +13,19 @@ PLAYER class which contains many attributes.
 @author: michaelselby
 """
 
-import numpy as np
-
-
 class player:
     def __init__(self,playername):
         self.playername = playername
 
     def add_dicts(self,overall_dict,sum_dict):
-        self.games_played = int(overall_dict['Matches Played'])
-        self.kills = int(overall_dict['Kills'])
-        self.damage = int(overall_dict['Damage'].replace(',', ''))
-        self.kd = float(overall_dict['K/D'])
-        self.assists = int(sum_dict['Assists'])
-        self.headshots = int(sum_dict['Headshots'])
-        self.revives = int(sum_dict['Revives'])
-        # self.laststandkills = int(overall_dict['Last Stand Kills'])
+        self.games_played = int(overall_dict.get('Matches Played', 0))
+        self.kills = int(overall_dict.get('Kills', 0))
+        self.damage = int(overall_dict.get('Damage', 0).replace(',', ''))
+        self.kd = float(overall_dict.get('K/D', 0))
+        self.assists = int(sum_dict.get('Assists',0))
+        self.headshots = int(sum_dict.get('Headshots', 0))
+        self.revives = int(sum_dict.get('Revives', 0))
+        self.laststandkills = int(overall_dict.get('Last Stand Kills', 0))
 
     def reset(self):
         self.playername = ''
@@ -42,6 +39,15 @@ class player:
         
     def new_name(self):
         return 'gary'+self.playername
+
+    def print_stats(self):
+        print('Stats for ' + str(self.playername))
+        print(str(self.kills)+' kills')
+        print(str(self.assists) + ' assists')
+        print(str(self.damage) + ' damage')
+        print(str(self.kd) + ' KD')
+        print(str(self.headshots) + ' headshots')
+        print(str(self.revives) + ' revives')
 
 
         
