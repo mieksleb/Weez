@@ -71,9 +71,9 @@ Now we want to convert the total_dict and summary_dict into a player_class
 
 
 # generates the damage gn for a given player. There is a extra penalty for superior players.
-def damage_gn(player):
+def damage_gn(player: Player) -> float:
     n = player.games_played
-    rand = np.random.normal(1,0.1)
+    rand = np.random.normal(1, 0.1)
     if player.playername == 'ButtPunch69':
         return 900*n*rand
     else:
@@ -82,10 +82,10 @@ def damage_gn(player):
 # rumee.gn = damage_gn(rumee)
 
 
-def gn_judgement(player):
-    if (player.damage < player.gn):
+def gn_judgement(player: Player) -> bool:
+    if player.damage < player.gn:
         return False
-    if (player.damage > player.gn):
+    if player.damage > player.gn:
         return True
 
 # rumee.judge = gn_judgement(rumee)
