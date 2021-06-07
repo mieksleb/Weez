@@ -3,7 +3,7 @@
 """
 Created on Wed May 19 20:09:23 2021
 
-weez_analysis.py is a python3 script which processes a weez players' peformance across a time-period and
+weez_analysis.py is a python3 script which processes a weez players' performance across a time-period and
 deliver judgement.
 
 
