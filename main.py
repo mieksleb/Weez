@@ -1,5 +1,5 @@
 from Scraper.weez_scraper import WeezScraper
-from Analysis_Tools.weez_reader import player
+from Analysis_Tools.weez_reader import Player
 from Analysis_Tools.weez_analysis import get_sum_dict
 from Analysis_Tools.weez_analysis import damage_gn
 from Analysis_Tools.weez_analysis import gn_judgement
@@ -15,7 +15,7 @@ dict_list = [rumee_dict, mike_dict, neen_dict]
 
 player_list = []
 for dicto in dict_list:
-    player1 = player(dicto['name'])
+    player1 = Player(dicto['name'])
     scrape = WeezScraper(dicto['game_name'], dicto['platform'])
     scrape.scrape()
 

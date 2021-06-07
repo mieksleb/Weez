@@ -9,7 +9,7 @@ deliver judgement.
 
 @author: michaelselby
 """
-from Analysis_Tools.weez_reader import player
+from Analysis_Tools.weez_reader import Player
 import numpy as np
 import pickle
 
@@ -20,7 +20,7 @@ import pickle
 # rumee = player('Rumee')
 
 
-def get_sum_dict(player,match_stats):
+def get_sum_dict(player: Player, match_stats: dict) -> dict:
     """
     Function which takes a player class and a list of match dictionaries and returns the a dictionary of the sum, with an extra key for matches played
     Note that for things like KD, the sum is a useless_quantity and should be sourced from the player_stats

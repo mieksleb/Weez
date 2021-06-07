@@ -13,7 +13,8 @@ PLAYER class which contains many attributes.
 @author: michaelselby
 """
 
-class player:
+
+class Player:
     def __init__(self,playername):
         self.playername = playername
 
@@ -48,7 +49,3 @@ class player:
         print(str(self.kd) + ' KD')
         print(str(self.headshots) + ' headshots')
         print(str(self.revives) + ' revives')
-
-
-        
-    
