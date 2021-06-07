@@ -42,5 +42,3 @@ for dicto in dict_list:
 
 # for player in player_list:
 #     player.print_stats()
-
-

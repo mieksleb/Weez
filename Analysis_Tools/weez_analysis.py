@@ -22,13 +22,13 @@ import pickle
 
 def get_sum_dict(player: Player, match_stats: dict) -> dict:
     """
-    Function which takes a player class and a list of match dictionaries and returns the a dictionary of the sum, with an extra key for matches played
-    Note that for things like KD, the sum is a useless_quantity and should be sourced from the player_stats
-    :return: a player dictionary of totals
+    Function which takes a player class and a list of match dictionaries and returns the a dictionary of the sum, with
+    an extra key for matches played. Note that for things like KD, the sum is a useless_quantity and should be sourced
+    from the player_stats.
+    :return: a player dictionary of totals.
     """
     nmatches = len(match_stats)
-    total_dict = {}
-    total_dict['Name'] = player.playername
+    total_dict = {'Name': player.playername}
 
     dict_keys = list(match_stats[0].keys())
     # retain only the fields which can be converted into floats and hence summed
@@ -74,12 +74,13 @@ Now we want to convert the total_dict and summary_dict into a player_class
 def damage_gn(player):
     n = player.games_played
     rand = np.random.normal(1,0.1)
-    if (player.playername=='ButtPunch69'):
+    if player.playername == 'ButtPunch69':
         return 900*n*rand
     else:
         return 750*n*rand
 
 # rumee.gn = damage_gn(rumee)
+
 
 def gn_judgement(player):
     if (player.damage < player.gn):
@@ -88,4 +89,3 @@ def gn_judgement(player):
         return True
 
 # rumee.judge = gn_judgement(rumee)
-
