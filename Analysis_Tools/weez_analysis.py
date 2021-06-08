@@ -30,17 +30,20 @@ def get_sum_dict(player: Player, match_stats: dict) -> dict:
     nmatches = len(match_stats)
     total_dict = {'Name': player.playername}
 
+
     dict_keys = list(match_stats[0].keys())
+
+
     # retain only the fields which can be converted into floats and hence summed
     sum_keys = []
     for keyname in dict_keys:
         try:
             value = match_stats[0][keyname].replace(',', '')
-            value = float(match_stats[0][keyname])
+            value = float(value)
             sum_keys.append(keyname)
         except:
             0
-
+    print(sum_keys)
     for keyname in sum_keys:
         sum_value = 0
         for i in range(0,nmatches-1):
@@ -58,33 +61,26 @@ def get_sum_dict(player: Player, match_stats: dict) -> dict:
 # generates the damage gn for a given player. There is a extra penalty for superior players.
 def damage_gn(player: Player) -> float:
     n = player.games_played
-<<<<<<< HEAD
-    rand = np.random.normal(1,0.1)
-=======
     rand = np.random.normal(1, 0.1)
->>>>>>> 31bde6d9539b19018c84db3bde17d5bd62a01998
     if player.playername == 'ButtPunch69':
         return 900*n*rand
     else:
         return 750*n*rand
 
 
-<<<<<<< HEAD
-def gn_judgement(player):
-=======
-
 def gn_judgement(player: Player) -> bool:
->>>>>>> 31bde6d9539b19018c84db3bde17d5bd62a01998
     if player.damage < player.gn:
         return False
     if player.damage > player.gn:
         return True
 
-<<<<<<< HEAD
+
+
 
 def bullet_bitch(player_list):
     max = 0
     for player in player_list:
+        print(player.playername)
         d = player.damage_taken
         if d > max:
             bitch = player.playername
@@ -95,7 +91,3 @@ def bullet_bitch(player_list):
 
 
 
-
-=======
-# rumee.judge = gn_judgement(rumee)
->>>>>>> 31bde6d9539b19018c84db3bde17d5bd62a01998

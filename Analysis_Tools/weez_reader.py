@@ -21,9 +21,10 @@ class Player:
     def add_dicts(self, overall_dict: dict, sum_dict: dict):
         self.games_played = int(overall_dict.get('Matches Played', 0))
         self.kills = int(overall_dict.get('Kills', 0))
+        self.deaths = int(sum_dict.get('Deaths', 0))
         self.damage = int(overall_dict.get('Damage', 0).replace(',', ''))
         self.damage_taken = int(sum_dict.get('Damage Taken', 0))
-        self.score = int(overall_dict.get('Score', 0))
+        self.score = int(sum_dict.get('Score', 0))
         self.teams_wiped = int(sum_dict.get('Teams Wiped', 0))
         self.kd = float(overall_dict.get('K/D', 0))
         self.assists = int(sum_dict.get('Assists',0))
@@ -47,7 +48,9 @@ class Player:
     def print_stats(self):
         print('Stats for ' + str(self.playername))
         print(str(self.games_played) + ' games played')
+        print('Score: '+ str(self.score))
         print(str(self.kills)+' kills')
+        print(str(self.deaths) + ' deaths')
         print(str(self.assists) + ' assists')
         print(str(self.damage) + ' damage')
         print(str(self.damage_taken) + ' damage received')
