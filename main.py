@@ -3,6 +3,7 @@ from Analysis_Tools.weez_reader import player
 from Analysis_Tools.weez_analysis import get_sum_dict
 from Analysis_Tools.weez_analysis import damage_gn
 from Analysis_Tools.weez_analysis import gn_judgement
+from Analysis_Tools.weez_analysis import bullet_bitch
 
 import pickle
 
@@ -30,24 +31,13 @@ dict_list.append(neen_dict)
 # chumby = WeezScraper('RumeeAhmed','PSN')
 # chumby.scrape()
 
-
+# This loop is over all players and
 player_list = []
 for dicto in dict_list:
     player1 = player(dicto['name'])
     scrape = WeezScraper(dicto['game_name'], dicto['platform'])
     scrape.scrape()
 
-    # with open(player1.playername+'overall_stats', 'wb') as overall_file:
-    #      pickle.dump(scrape.overall_stats, overall_file)
-    #
-    # with open('match_stats', 'wb') as match_file:
-    #      pickle.dump(scrape.match_stats, match_file)
-
-    # matches = open('match_stats', 'rb')
-    # matches_dict = pickle.load(matches)
-    # overall = open('overall_stats', 'rb')
-    # overall_dict = pickle.load(overall)
-    # sum_dict = get_sum_dict(player1,matches_dict)
     overall_dict = scrape.overall_stats
     matches_dict = scrape.match_stats
     sum_dict = get_sum_dict(player1,matches_dict)
@@ -55,14 +45,11 @@ for dicto in dict_list:
 
     player1.gn = damage_gn(player1)
     player1.judge = gn_judgement(player1)
-
-
+    player_list.append(player1)
     player1.print_stats()
-
 
     player1.reset()
 
-# for player in player_list:
-#     player.print_stats()
 
 
+bullet_bitch(player_list)

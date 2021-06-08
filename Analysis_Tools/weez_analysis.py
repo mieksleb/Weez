@@ -45,47 +45,44 @@ def get_sum_dict(player,match_stats):
         sum_value = 0
         for i in range(0,nmatches-1):
             try:
-                value = match_stats[0][keyname].replace(',', '')
-                value = float(match_stats[0][keyname])
+                value = match_stats[i][keyname].replace(',', '')
+                value = float(match_stats[i][keyname])
             except:
-                0
+                value = 0
             sum_value += value
         total_dict[keyname] = sum_value
 
     return total_dict
 
 
-# rumee_sum_dict = get_sum_dict(rumee,match_dict)
-# print(rumee_sum_dict)
-# print(overall_dict)
-#
-#
-# match.close()
-# overall.close()
-
-'''
-Now we want to convert the total_dict and summary_dict into a player_class
-'''
-
-# rumee.add_dicts(overall_dict,rumee_sum_dict)
-
-
 # generates the damage gn for a given player. There is a extra penalty for superior players.
 def damage_gn(player):
     n = player.games_played
     rand = np.random.normal(1,0.1)
-    if (player.playername=='ButtPunch69'):
+    if player.playername == 'ButtPunch69':
         return 900*n*rand
     else:
         return 750*n*rand
 
-# rumee.gn = damage_gn(rumee)
 
 def gn_judgement(player):
-    if (player.damage < player.gn):
+    if player.damage < player.gn:
         return False
-    if (player.damage > player.gn):
+    if player.damage > player.gn:
         return True
 
-# rumee.judge = gn_judgement(rumee)
+
+def bullet_bitch(player_list):
+    max = 0
+    for player in player_list:
+        d = player.damage_taken
+        if d > max:
+            bitch = player.playername
+            max = d
+        else:
+            0
+    print(bitch + " is the bullet bitch")
+
+
+
 

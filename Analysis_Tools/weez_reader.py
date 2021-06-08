@@ -21,6 +21,9 @@ class player:
         self.games_played = int(overall_dict.get('Matches Played', 0))
         self.kills = int(overall_dict.get('Kills', 0))
         self.damage = int(overall_dict.get('Damage', 0).replace(',', ''))
+        self.damage_taken = int(sum_dict.get('Damage Taken', 0))
+        self.score = int(overall_dict.get('Score', 0))
+        self.teams_wiped = int(sum_dict.get('Teams Wiped', 0))
         self.kd = float(overall_dict.get('K/D', 0))
         self.assists = int(sum_dict.get('Assists',0))
         self.headshots = int(sum_dict.get('Headshots', 0))
@@ -42,12 +45,21 @@ class player:
 
     def print_stats(self):
         print('Stats for ' + str(self.playername))
+        print(str(self.games_played) + ' games played')
         print(str(self.kills)+' kills')
         print(str(self.assists) + ' assists')
         print(str(self.damage) + ' damage')
+        print(str(self.damage_taken) + ' damage received')
         print(str(self.kd) + ' KD')
         print(str(self.headshots) + ' headshots')
         print(str(self.revives) + ' revives')
+        print(str(self.teams_wiped) + ' team wipes')
+        if (self.judge==True):
+            print(self.playername+' has hit his gn')
+        else:
+            print(self.playername + ' has not hit his gn')
+
+
 
 
         
