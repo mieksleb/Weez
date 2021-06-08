@@ -26,7 +26,7 @@ class WeezScraper(webdriver.Chrome):
         :param username: The username of the player in question.
         :param platform: The gaming platform the username is associated with. For now only use use usernames that belong
         to the PlayStation Network or the Activision Network. Acceptable strings for this parameters are `PS` and
-        `Activision`
+        `Activision`.
         """
         super().__init__(self._driver_path, options=self.options)
         self.username = username
@@ -148,7 +148,7 @@ class WeezScraper(webdriver.Chrome):
     def _scrape_individual_match_stats(self):
         """
         This will scrape the individual match stats per entry from the matches played.
-        :return: Dictionary containing the detailed match stats
+        :return: Dictionary object containing the detailed match stats.
         """
         self.implicitly_wait(5)
 

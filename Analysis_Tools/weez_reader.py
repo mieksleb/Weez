@@ -13,11 +13,12 @@ PLAYER class which contains many attributes.
 @author: michaelselby
 """
 
-class player:
-    def __init__(self,playername):
+
+class Player:
+    def __init__(self, playername: str):
         self.playername = playername
 
-    def add_dicts(self,overall_dict,sum_dict):
+    def add_dicts(self, overall_dict: dict, sum_dict: dict):
         self.games_played = int(overall_dict.get('Matches Played', 0))
         self.kills = int(overall_dict.get('Kills', 0))
         self.damage = int(overall_dict.get('Damage', 0).replace(',', ''))
@@ -60,7 +61,3 @@ class player:
             print(self.playername + ' has not hit his gn')
 
 
-
-
-        
-    
