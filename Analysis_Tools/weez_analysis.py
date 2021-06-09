@@ -43,7 +43,6 @@ def get_sum_dict(player: Player, match_stats: dict) -> dict:
             sum_keys.append(keyname)
         except:
             0
-    print(sum_keys)
     for keyname in sum_keys:
         sum_value = 0
         for i in range(0,nmatches-1):
@@ -80,7 +79,6 @@ def gn_judgement(player: Player) -> bool:
 def bullet_bitch(player_list):
     max = 0
     for player in player_list:
-        print(player.playername)
         d = player.damage_taken
         if d > max:
             bitch = player.playername
@@ -88,6 +86,65 @@ def bullet_bitch(player_list):
         else:
             0
     print(bitch + " is the bullet bitch")
+
+
+def dam_eff(player_list):
+    max = 0
+    min = 100000
+    for player in player_list:
+        d = player.damage
+        k = player.kills
+        ratio = d/k
+        if ratio > max:
+            bitch = player.playername
+            max = ratio
+        if ratio < min:
+            lad = player.playername
+            min = ratio
+
+    print(lad + " is the lethal killer")
+    print(bitch + " is the damage hoarder")
+
+def tank(player_list):
+    max = 0
+    min = 100000
+    for player in player_list:
+        d = player.damage_taken
+        k = player.deaths
+        ratio = d/k
+        if ratio > max:
+            chonk = player.playername
+            max = ratio
+        if ratio < min:
+            choad = player.playername
+            min = ratio
+
+    print(chonk + " is the tank")
+    print(choad + " is the pussy o")
+
+def medic(player_list):
+    max = 0
+    for player in player_list:
+        revives = player.revives
+        if revives > max:
+            medic = player.playername
+            max = revives
+
+    print(medic + " is the medic")
+
+
+def team_lover(player_list):
+    max = 0
+    for player in player_list:
+        score = player.score
+        if score > max:
+            tl = player.playername
+            max = score
+
+    print(tl + " loves the team")
+
+
+
 
 
 

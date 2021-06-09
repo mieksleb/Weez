@@ -1,15 +1,14 @@
 from Scraper.weez_scraper import WeezScraper
-from Analysis_Tools.weez_analysis import bullet_bitch
 from Analysis_Tools.weez_reader import Player
-from Analysis_Tools.weez_analysis import get_sum_dict, damage_gn, gn_judgement
+from Analysis_Tools.weez_analysis import *
 
 
 rumee_dict = {'name': 'Captain Ahmed', 'game_name': 'RumeeAhmed', 'platform': 'PSN'}
 mike_dict = {'name': 'The Golden God', 'game_name': 'Buttpunch69#5164309', 'platform': 'activision'}
 neen_dict = {'name': 'Cheen', 'game_name': 'mininick green#5504512', 'platform': 'activision'}
 
-# dict_list = [rumee_dict, mike_dict, neen_dict]
-dict_list = [rumee_dict]
+dict_list = [rumee_dict, mike_dict, neen_dict]
+# dict_list = [rumee_dict]
 
 # chumby = WeezScraper('RumeeAhmed','PSN')
 # chumby.scrape()
@@ -34,9 +33,11 @@ for dicto in dict_list:
     player_list.append(player1)
     player1.print_stats()
 
-
-
 bullet_bitch(player_list)
+dam_eff(player_list)
+tank(player_list)
+medic(player_list)
+team_lover(player_list)
 
 
 

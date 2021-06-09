@@ -62,5 +62,6 @@ class Player:
             print(self.playername+' has hit his gn')
         else:
             print(self.playername + ' has not hit his gn')
+        print()
 
 
