@@ -17,6 +17,7 @@ PLAYER class which contains many attributes.
 class Player:
     def __init__(self, playername: str):
         self.playername = playername
+        self.gn = None
 
     def add_dicts(self, overall_dict: dict, sum_dict: dict):
         self.games_played = int(overall_dict.get('Matches Played', 0))

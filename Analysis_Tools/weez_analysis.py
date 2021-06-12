@@ -11,13 +11,6 @@ deliver judgement.
 """
 from Analysis_Tools.weez_reader import Player
 import numpy as np
-import pickle
-
-# match = open('match_stats', 'rb')
-# match_dict = pickle.load(match)
-# overall = open('overall_stats', 'rb')
-# overall_dict = pickle.load(overall)
-# rumee = player('Rumee')
 
 
 def get_sum_dict(player: Player, match_stats: dict) -> dict:
@@ -29,10 +22,7 @@ def get_sum_dict(player: Player, match_stats: dict) -> dict:
     """
     nmatches = len(match_stats)
     total_dict = {'Name': player.playername}
-
-
     dict_keys = list(match_stats[0].keys())
-
 
     # retain only the fields which can be converted into floats and hence summed
     sum_keys = []
@@ -43,9 +33,10 @@ def get_sum_dict(player: Player, match_stats: dict) -> dict:
             sum_keys.append(keyname)
         except:
             0
+
     for keyname in sum_keys:
         sum_value = 0
-        for i in range(0,nmatches-1):
+        for i in range(0, nmatches-1):
             try:
                 value = match_stats[i][keyname].replace(',', '')
                 value = float(match_stats[i][keyname])
@@ -57,94 +48,33 @@ def get_sum_dict(player: Player, match_stats: dict) -> dict:
     return total_dict
 
 
-# generates the damage gn for a given player. There is a extra penalty for superior players.
-def damage_gn(player: Player) -> float:
-    n = player.games_played
-    rand = np.random.normal(1, 0.1)
-    if player.playername == 'ButtPunch69':
-        return 900*n*rand
-    else:
-        return 750*n*rand
+class GNCalculator:
+    """
+    Object that handles the GN for a given Player.
+    """
 
+    def __init__(self, player: Player):
+        self.player = player
 
-def gn_judgement(player: Player) -> bool:
-    if player.damage < player.gn:
-        return False
-    if player.damage > player.gn:
-        return True
-
-
-
-
-def bullet_bitch(player_list):
-    max = 0
-    for player in player_list:
-        d = player.damage_taken
-        if d > max:
-            bitch = player.playername
-            max = d
+    def damage_gn(self) -> float:
+        """
+        Function that generates the aspirational damage GN for any given Player. There is an extra penalty for superior
+        players.
+        :return: An int object that represents the aspirational GN.
+        """
+        n = self.player.games_played
+        rand = np.random.normal(1, 0.1)
+        if self.player.playername == 'ButtPunch69':
+            return 900 * n * rand
         else:
-            0
-    print(bitch + " is the bullet bitch")
+            return 750 * n * rand
 
-
-def dam_eff(player_list):
-    max = 0
-    min = 100000
-    for player in player_list:
-        d = player.damage
-        k = player.kills
-        ratio = d/k
-        if ratio > max:
-            bitch = player.playername
-            max = ratio
-        if ratio < min:
-            lad = player.playername
-            min = ratio
-
-    print(lad + " is the lethal killer")
-    print(bitch + " is the damage hoarder")
-
-def tank(player_list):
-    max = 0
-    min = 100000
-    for player in player_list:
-        d = player.damage_taken
-        k = player.deaths
-        ratio = d/k
-        if ratio > max:
-            chonk = player.playername
-            max = ratio
-        if ratio < min:
-            choad = player.playername
-            min = ratio
-
-    print(chonk + " is the tank")
-    print(choad + " is the pussy o")
-
-def medic(player_list):
-    max = 0
-    for player in player_list:
-        revives = player.revives
-        if revives > max:
-            medic = player.playername
-            max = revives
-
-    print(medic + " is the medic")
-
-
-def team_lover(player_list):
-    max = 0
-    for player in player_list:
-        score = player.score
-        if score > max:
-            tl = player.playername
-            max = score
-
-    print(tl + " loves the team")
-
-
-
-
-
-
+    def gn_judgement(self) -> bool:
+        """
+        Function that checks whether a Players damage is greater than the aspirational GN set by the damage GN.
+        :return: A bool that indicates whether the said player has reached their GN.
+        """
+        if self.player.damage < self.player.gn:
+            return False
+        if self.player.damage > self.player.gn:
+            return True
