@@ -1,6 +1,6 @@
 from Scraper.weez_scraper import WeezScraper
 from Analysis_Tools.weez_awards import WeezAwards
-from Analysis_Tools.weez_analysis import *
+from Analysis_Tools.weez_analysis import GNCalculator, get_sum_dict
 from Analysis_Tools.weez_reader import Player
 
 rumee_dict = {'name': 'Captain Ahmed', 'game_name': 'RumeeAhmed', 'platform': 'PSN'}
@@ -9,7 +9,6 @@ neen_dict = {'name': 'Cheen', 'game_name': 'mininick green#5504512', 'platform':
 
 dict_list = [rumee_dict, mike_dict, neen_dict]
 # dict_list = [rumee_dict]
-# This loop is over all players and
 
 player_list = []
 for dicto in dict_list:

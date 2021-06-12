@@ -14,7 +14,7 @@ class WeezAwards:
     def _get_bullet_bitch(self):
         """
         Calculate the Player who has absorbed the most damage in the session.
-        :return: None
+        :return: None.
         """
         self.bullet_bitch = None
         max_damage = 0
@@ -28,7 +28,7 @@ class WeezAwards:
     def _get_medic(self):
         """
         Calculate the Player with the most revives in the session.
-        :return: None
+        :return: None.
         """
         self.medic = None
         max_revives = 0
@@ -39,12 +39,12 @@ class WeezAwards:
                 self.medic = player.playername
                 max_revives = revives
 
-    def _get_head_splitter(self):
+    def _get_head_master(self):
         """
         Calculate the Player with the most headshots in the session.
-        :return: None
+        :return: None.
         """
-        self.head_splitter = None
+        self.head_master = None
         max_headshots = 0
 
         for player in self.player_list:
@@ -56,7 +56,7 @@ class WeezAwards:
     def _get_assister(self):
         """
         Calculate the Player with the most assists in the session.
-        :return: None
+        :return: None.
         """
         self.top_assister = None
         max_assists = 0
@@ -70,7 +70,7 @@ class WeezAwards:
     def _get_team_lover_and_hater(self):
         """
         Calculate the Player that loves the teams and the Player that hates the team.
-        :return:
+        :return: None.
         """
         self.team_lover = None
         self.team_hater = None
@@ -89,7 +89,7 @@ class WeezAwards:
     def _get_lethality(self):
         """
         Calculate the most and least lethal Player
-        :return:
+        :return:None.
         """
         self.lethal_killer = None
         self.least_lethal_killer = None
@@ -111,7 +111,7 @@ class WeezAwards:
         """
         Calculate the Player who requires the most damage for a death and the Player that takes the least damage per
         death.
-        :return: None
+        :return: None.
         """
         self.tank = None
         self.gummy_bear = None
@@ -132,11 +132,11 @@ class WeezAwards:
     def process_player_stats(self):
         """
         Method that process all the private methods to produce the awards.
-        :return: None
+        :return: None.
         """
         self._get_bullet_bitch()
         self._get_medic()
-        self._get_head_splitter()
+        self._get_head_master()
         self._get_assister()
         self._get_team_lover_and_hater()
         self._get_lethality()
@@ -147,11 +147,11 @@ class WeezAwards:
         Produce a string that shows the entire results of the awards.
         :return: String object that contains the awards.
         """
-        results = \
-            f"""
+        results = f"""
             {self.bullet_bitch} is the bullet bitch
             {self.medic} is the medic
-            {self.head_splitter} is the headsplitter{self.top_assister} is the top assister
+            {self.head_master} is the headmaster
+            {self.top_assister} is the top assister
             {self.team_lover} loves the team
             {self.lethal_killer} is the lethal killer
             {self.least_lethal_killer} is the least lethal killer
