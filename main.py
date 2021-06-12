@@ -9,11 +9,6 @@ neen_dict = {'name': 'Cheen', 'game_name': 'mininick green#5504512', 'platform':
 
 dict_list = [rumee_dict, mike_dict, neen_dict]
 # dict_list = [rumee_dict]
-
-# chumby = WeezScraper('RumeeAhmed','PSN')
-# chumby.scrape()
-
-
 # This loop is over all players and
 
 player_list = []
@@ -39,6 +34,3 @@ awards = WeezAwards(player_list)
 awards.process_player_stats()
 awards_message = awards.show_results()
 print(awards_message)
-
-
-
