@@ -129,6 +129,20 @@ class WeezAwards:
                 self.gummy_bear = player.playername
                 min_value = ratio
 
+    def _get_team_demolisher(self):
+        """
+        Calculate the Player with the most team wipes in the session.
+        :return: None.
+        """
+        self.team_demolisher = None
+        max_team_wipes = 0
+
+        for player in self.player_list:
+            wipes = player.assists
+            if wipes > max_team_wipes:
+                self.team_demolisher = player.playername
+                max_team_wipes = wipes
+
     def process_player_stats(self):
         """
         Method that process all the private methods to produce the awards.
@@ -141,6 +155,7 @@ class WeezAwards:
         self._get_team_lover_and_hater()
         self._get_lethality()
         self._get_tank()
+        self._get_team_demolisher()
 
     def show_results(self) -> str:
         """
@@ -157,5 +172,6 @@ class WeezAwards:
             {self.least_lethal_killer} is the least lethal killer
             {self.tank} is the tank
             {self.gummy_bear} is the gummy bear
+            {self.team_demolisher} is the team demolisher
             {self.pussio} is the pussio"""
         return results
