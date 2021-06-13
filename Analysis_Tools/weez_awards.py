@@ -148,7 +148,7 @@ class WeezAwards:
 
     def process_player_stats(self):
         """
-        Method that process all the private methods to produce the awards.
+        Method that calls all the private methods to produce the awards.
         :return: None.
         """
         self._get_bullet_bitch()
