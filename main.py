@@ -28,6 +28,7 @@ for player_dict in dict_list:
     player_list.append(player)
     stats = player.get_stats()
     print(stats)
+    print()
 
 awards = WeezAwards(player_list)
 awards.process_player_stats()
