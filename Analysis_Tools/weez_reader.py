@@ -1,19 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May 19 20:11:23 2021
-
-weez_reader.py is the reading module for weezstatz. 
-
-
-MATCH class stores the info from a particular match
-
-PLAYER class which contains many attributes.
-
-@author: michaelselby
-"""
-
-
 class Player:
     """
     Object that represents a player and their stats for the session.
@@ -25,6 +9,7 @@ class Player:
         """
         self.player_name = player_name
         self.gn = None
+        self.judge = False
 
     def add_dicts(self, overall_dict: dict, sum_dict: dict):
         """
@@ -33,11 +18,26 @@ class Player:
         :param sum_dict: The dictionary object that contains the sum of all the match data for the session.
         :return: None
         """
+        self._process_overall_dict(overall_dict)
+        self._process_sum_dict(sum_dict)
+
+    def _process_overall_dict(self, overall_dict: dict):
+        """
+        Process the overall_dict data into class attributes.
+        :param overall_dict: The dictionary object that contains the overall data for the session.
+        :return: None
+        """
         self.games_played = int(overall_dict.get('Matches Played', 0))
         self.kills = int(overall_dict.get('Kills', 0))
         self.damage = int(overall_dict.get('Damage', 0).replace(',', ''))
         self.kd = float(overall_dict.get('K/D', 0))
 
+    def _process_sum_dict(self, sum_dict: dict):
+        """
+        Process the sum_dict data into class attributes.
+        :param sum_dict: The dictionary object that contains the sum of all the match data for the session.
+        :return: None
+        """
         self.deaths = int(sum_dict.get('Deaths', 0))
         self.damage_taken = int(sum_dict.get('Damage Taken', 0))
         self.score = int(sum_dict.get('Score', 0))
@@ -46,9 +46,6 @@ class Player:
         self.headshots = int(sum_dict.get('Headshots', 0))
         self.revives = int(sum_dict.get('Revives', 0))
         self.last_stand_kills = int(sum_dict.get('Last Stand Kills', 0))
-
-    def new_name(self) -> str:
-        return 'Gary' + self.player_name
 
     def get_stats(self) -> str:
         """

@@ -1,14 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May 19 20:09:23 2021
-
-weez_analysis.py is a python3 script which processes a weez players' performance across a time-period and
-deliver judgement.
-
-
-@author: michaelselby
-"""
 from Analysis_Tools.weez_reader import Player
 import numpy as np
 
