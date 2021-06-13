@@ -11,19 +11,19 @@ dict_list = [rumee_dict, mike_dict, neen_dict]
 # dict_list = [rumee_dict]
 
 player_list = []
-for dicto in dict_list:
-    player1 = Player(dicto['name'])
-    scrape = WeezScraper(dicto['game_name'], dicto['platform'])
-    scrape.scrape()
+for player_dict in dict_list:
+    player1 = Player(player_dict['name'])
+    scraper = WeezScraper(player_dict['game_name'], player_dict['platform'])
+    scraper.scrape()
 
-    overall_dict = scrape.overall_stats
-    matches_dict = scrape.match_stats
+    overall_dict = scraper.overall_stats
+    matches_dict = scraper.match_stats
     sum_dict = get_sum_dict(player1, matches_dict)
     player1.add_dicts(overall_dict, sum_dict)
 
     gn_calc = GNCalculator(player1)
 
-    player1.gn = gn_calc.damage_gn()
+    player1.gn = gn_calc.get_damage_gn()
     player1.judge = gn_calc.gn_judgement()
 
     player_list.append(player1)

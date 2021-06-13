@@ -35,19 +35,20 @@ class Player:
         """
         self.games_played = int(overall_dict.get('Matches Played', 0))
         self.kills = int(overall_dict.get('Kills', 0))
-        self.deaths = int(sum_dict.get('Deaths', 0))
         self.damage = int(overall_dict.get('Damage', 0).replace(',', ''))
+        self.kd = float(overall_dict.get('K/D', 0))
+
+        self.deaths = int(sum_dict.get('Deaths', 0))
         self.damage_taken = int(sum_dict.get('Damage Taken', 0))
         self.score = int(sum_dict.get('Score', 0))
         self.teams_wiped = int(sum_dict.get('Teams Wiped', 0))
-        self.kd = float(overall_dict.get('K/D', 0))
         self.assists = int(sum_dict.get('Assists', 0))
         self.headshots = int(sum_dict.get('Headshots', 0))
         self.revives = int(sum_dict.get('Revives', 0))
-        self.laststandkills = int(overall_dict.get('Last Stand Kills', 0))
+        self.last_stand_kills = int(sum_dict.get('Last Stand Kills', 0))
 
     def new_name(self) -> str:
-        return 'gary' + self.playername
+        return 'Gary' + self.playername
 
     def print_stats(self):
         print('Stats for ' + str(self.playername))
@@ -61,7 +62,8 @@ class Player:
         print(str(self.kd) + ' KD')
         print(str(self.headshots) + ' headshots')
         print(str(self.revives) + ' revives')
-        print(str(self.teams_wiped) + ' team wipes')
+        print(str(self.teams_wiped) + ' team wiped')
+        print(str(self.last_stand_kills) + ' last stand kills')
         if self.judge:
             print(self.playername + ' has hit his gn')
         else:

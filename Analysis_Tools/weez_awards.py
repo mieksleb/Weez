@@ -20,10 +20,9 @@ class WeezAwards:
         max_damage = 0
 
         for player in self.player_list:
-            damage = player.damage_taken
-            if damage > max_damage:
+            if player.damage_taken > max_damage:
                 self.bullet_bitch = player.playername
-                max_damage = damage
+                max_damage = player.damage_taken
 
     def _get_medic(self):
         """
@@ -34,10 +33,9 @@ class WeezAwards:
         max_revives = 0
 
         for player in self.player_list:
-            revives = player.revives
-            if revives > max_revives:
+            if player.revives > max_revives:
                 self.medic = player.playername
-                max_revives = revives
+                max_revives = player.revives
 
     def _get_head_master(self):
         """
@@ -48,10 +46,9 @@ class WeezAwards:
         max_headshots = 0
 
         for player in self.player_list:
-            headshots = player.headshots
-            if headshots > max_headshots:
-                self.head_splitter = player.playername
-                max_headshots = headshots
+            if player.headshots > max_headshots:
+                self.head_master = player.playername
+                max_headshots = player.headshots
 
     def _get_assister(self):
         """
@@ -62,10 +59,9 @@ class WeezAwards:
         max_assists = 0
 
         for player in self.player_list:
-            assists = player.assists
-            if assists > max_assists:
+            if player.assists > max_assists:
                 self.top_assister = player.playername
-                max_assists = assists
+                max_assists = player.assists
 
     def _get_team_lover_and_hater(self):
         """
@@ -78,13 +74,12 @@ class WeezAwards:
         min_score = 100000
 
         for player in self.player_list:
-            score = player.score
-            if score > max_score:
+            if player.score > max_score:
                 self.team_lover = player.playername
-                max_score = score
-            if score < min_score:
+                max_score = player.score
+            if player.score < min_score:
                 self.team_hater = player.playername
-                min_score = score
+                min_score = player.score
 
     def _get_lethality(self):
         """
@@ -97,9 +92,7 @@ class WeezAwards:
         min_lethality = 100000
 
         for player in self.player_list:
-            damage = player.damage
-            kills = player.kills
-            ratio = damage / kills
+            ratio = player.damage / player.kills
             if ratio > max_lethality:
                 self.least_lethal_killer = player.playername
                 max_lethality = ratio
@@ -119,9 +112,7 @@ class WeezAwards:
         min_value = 100000
 
         for player in self.player_list:
-            damage = player.damage_taken
-            deaths = player.deaths
-            ratio = damage/deaths
+            ratio = player.damage_taken / player.deaths
             if ratio > max_value:
                 self.tank = player.playername
                 max_value = ratio
@@ -138,10 +129,22 @@ class WeezAwards:
         max_team_wipes = 0
 
         for player in self.player_list:
-            wipes = player.assists
-            if wipes > max_team_wipes:
+            if player.teams_wiped > max_team_wipes:
                 self.team_demolisher = player.playername
-                max_team_wipes = wipes
+                max_team_wipes = player.teams_wiped
+
+    def _get_serial_killer(self):
+        """
+        Calculate the Player with the most last stand kills in the session.
+        :return: None.
+        """
+        self.serial_killer = None
+        max_last_stand_kills = 0
+
+        for player in self.player_list:
+            if player.last_stand_kills > max_last_stand_kills:
+                self.serial_killer = player.playername
+                max_last_stand_kills = player.last_stand_kills
 
     def process_player_stats(self):
         """
@@ -156,6 +159,7 @@ class WeezAwards:
         self._get_lethality()
         self._get_tank()
         self._get_team_demolisher()
+        self._get_serial_killer()
 
     def show_results(self) -> str:
         """
@@ -173,5 +177,6 @@ class WeezAwards:
             {self.tank} is the tank
             {self.gummy_bear} is the gummy bear
             {self.team_demolisher} is the team demolisher
+            {self.serial_killer} is the serial killer
             {self.pussio} is the pussio"""
         return results
