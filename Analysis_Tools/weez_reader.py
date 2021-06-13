@@ -18,12 +18,12 @@ class Player:
     """
     Object that represents a player and their stats for the session.
     """
-    def __init__(self, playername: str):
+    def __init__(self, player_name: str):
         """
 
-        :param playername: The name of the player.
+        :param player_name: The name of the player.
         """
-        self.playername = playername
+        self.player_name = player_name
         self.gn = None
 
     def add_dicts(self, overall_dict: dict, sum_dict: dict):
@@ -48,24 +48,31 @@ class Player:
         self.last_stand_kills = int(sum_dict.get('Last Stand Kills', 0))
 
     def new_name(self) -> str:
-        return 'Gary' + self.playername
+        return 'Gary' + self.player_name
 
-    def print_stats(self):
-        print('Stats for ' + str(self.playername))
-        print(str(self.games_played) + ' games played')
-        print('Score: ' + str(self.score))
-        print(str(self.kills) + ' kills')
-        print(str(self.deaths) + ' deaths')
-        print(str(self.assists) + ' assists')
-        print(str(self.damage) + ' damage')
-        print(str(self.damage_taken) + ' damage received')
-        print(str(self.kd) + ' KD')
-        print(str(self.headshots) + ' headshots')
-        print(str(self.revives) + ' revives')
-        print(str(self.teams_wiped) + ' team wiped')
-        print(str(self.last_stand_kills) + ' last stand kills')
+    def get_stats(self) -> str:
+        """
+        Get all the Player's stats and put it into an object.
+        :return: A string object containing all of the Player's stats.
+        """
         if self.judge:
-            print(self.playername + ' has hit his gn')
+            gn = f'{self.player_name} has hit his GN!'
         else:
-            print(self.playername + ' has not hit his gn')
-        print()
+            gn = f'{self.player_name} has not hit his GN!'
+
+        stats = f'Stats for {self.player_name}\n' \
+                f'{self.games_played} games played\n' \
+                f'Score: {self.score}\n' \
+                f'{self.kills} Kills\n' \
+                f'{self.deaths} Deaths\n' \
+                f'{self.assists} Assists\n' \
+                f'{self.damage} Damage\n' \
+                f'{self.damage_taken} Damage Received\n' \
+                f'{self.kd} KD\n'\
+                f'{self.headshots} Headshots\n'\
+                f'{self.revives} Revives\n'\
+                f'{self.teams_wiped} Teams Wiped\n'\
+                f'{self.last_stand_kills} Last Stand Kills\n'\
+                f'{gn}'
+
+        return stats

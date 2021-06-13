@@ -21,7 +21,7 @@ class WeezAwards:
 
         for player in self.player_list:
             if player.damage_taken > max_damage:
-                self.bullet_bitch = player.playername
+                self.bullet_bitch = player.player_name
                 max_damage = player.damage_taken
 
     def _get_medic(self):
@@ -34,7 +34,7 @@ class WeezAwards:
 
         for player in self.player_list:
             if player.revives > max_revives:
-                self.medic = player.playername
+                self.medic = player.player_name
                 max_revives = player.revives
 
     def _get_head_master(self):
@@ -47,7 +47,7 @@ class WeezAwards:
 
         for player in self.player_list:
             if player.headshots > max_headshots:
-                self.head_master = player.playername
+                self.head_master = player.player_name
                 max_headshots = player.headshots
 
     def _get_assister(self):
@@ -60,7 +60,7 @@ class WeezAwards:
 
         for player in self.player_list:
             if player.assists > max_assists:
-                self.top_assister = player.playername
+                self.top_assister = player.player_name
                 max_assists = player.assists
 
     def _get_team_lover_and_hater(self):
@@ -75,10 +75,10 @@ class WeezAwards:
 
         for player in self.player_list:
             if player.score > max_score:
-                self.team_lover = player.playername
+                self.team_lover = player.player_name
                 max_score = player.score
             if player.score < min_score:
-                self.team_hater = player.playername
+                self.team_hater = player.player_name
                 min_score = player.score
 
     def _get_lethality(self):
@@ -94,10 +94,10 @@ class WeezAwards:
         for player in self.player_list:
             ratio = player.damage / player.kills
             if ratio > max_lethality:
-                self.least_lethal_killer = player.playername
+                self.least_lethal_killer = player.player_name
                 max_lethality = ratio
             if ratio < min_lethality:
-                self.lethal_killer = player.playername
+                self.lethal_killer = player.player_name
                 min_lethality = ratio
 
     def _get_tank(self):
@@ -114,10 +114,10 @@ class WeezAwards:
         for player in self.player_list:
             ratio = player.damage_taken / player.deaths
             if ratio > max_value:
-                self.tank = player.playername
+                self.tank = player.player_name
                 max_value = ratio
             if ratio < min_value:
-                self.gummy_bear = player.playername
+                self.gummy_bear = player.player_name
                 min_value = ratio
 
     def _get_team_demolisher(self):
@@ -130,7 +130,7 @@ class WeezAwards:
 
         for player in self.player_list:
             if player.teams_wiped > max_team_wipes:
-                self.team_demolisher = player.playername
+                self.team_demolisher = player.player_name
                 max_team_wipes = player.teams_wiped
 
     def _get_serial_killer(self):
@@ -143,7 +143,7 @@ class WeezAwards:
 
         for player in self.player_list:
             if player.last_stand_kills > max_last_stand_kills:
-                self.serial_killer = player.playername
+                self.serial_killer = player.player_name
                 max_last_stand_kills = player.last_stand_kills
 
     def process_player_stats(self):
@@ -166,17 +166,18 @@ class WeezAwards:
         Produce a string that shows the entire results of the awards.
         :return: String object that contains the awards.
         """
-        results = f"""
-            {self.bullet_bitch} is the bullet bitch
-            {self.medic} is the medic
-            {self.head_master} is the headmaster
-            {self.top_assister} is the top assister
-            {self.team_lover} loves the team
-            {self.lethal_killer} is the lethal killer
-            {self.least_lethal_killer} is the least lethal killer
-            {self.tank} is the tank
-            {self.gummy_bear} is the gummy bear
-            {self.team_demolisher} is the team demolisher
-            {self.serial_killer} is the serial killer
-            {self.pussio} is the pussio"""
+        results = f'{self.bullet_bitch} is the bullet bitch\n' \
+                  f'{self.medic} is the medic\n' \
+                  f'{self.head_master} is the headmaster\n' \
+                  f'{self.top_assister} is the top assister\n' \
+                  f'{self.team_lover} loves the team\n' \
+                  f'{self.team_hater} hates the team\n' \
+                  f'{self.lethal_killer} is the lethal killer\n' \
+                  f'{self.least_lethal_killer} is the least lethal killer\n' \
+                  f'{self.tank} is the tank\n' \
+                  f'{self.gummy_bear} is the gummy bear\n' \
+                  f'{self.team_demolisher} is the team demolisher\n' \
+                  f'{self.serial_killer} is the serial killer\n' \
+                  f'{self.pussio} is the pussi o\n'
+
         return results

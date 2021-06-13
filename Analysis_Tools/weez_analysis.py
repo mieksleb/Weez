@@ -24,7 +24,7 @@ def get_sum_dict(player: Player, match_stats: list) -> dict:
     :return: a dictionary object containing the totals of all the main stats.
     """
     total_dict = {
-        'Name': player.playername,
+        'Name': player.player_name,
         'Deaths': 0,
         'Assists': 0,
         'Damage Taken': 0,
@@ -68,7 +68,7 @@ class GNCalculator:
         """
         n = self.player.games_played
         rand = np.random.normal(1, 0.1)
-        if self.player.playername == 'ButtPunch69':
+        if self.player.player_name == 'ButtPunch69':
             return 900 * n * rand
         else:
             return 750 * n * rand
