@@ -11,8 +11,9 @@ class GNBot(commands.Cog):
     """
     token = os.environ.get('DISCORD_KEY')
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot, messages: list):
         self.bot = bot
+        self.message = messages
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -20,10 +21,12 @@ class GNBot(commands.Cog):
         Print to the console to indicate the bot is now active.
         :return:
         """
+        for message in self.message:
+            await self.send_message(message)
         print('Bot online')
 
     @commands.command()
-    async def gn(self, ctx, command):
+    async def gn(self, ctx, command: str):
         """
         Announce judgment to the voice channel.
         :param ctx: discord context parameter
@@ -42,7 +45,6 @@ class GNBot(commands.Cog):
         if voice.is_connected():
             await voice.disconnect()
 
-
-bot = commands.Bot(command_prefix='!')
-bot.add_cog(GNBot(bot))
-bot.run(GNBot.token)
+    async def send_message(self, message):
+        channel = self.bot.get_channel(730551428963237985)
+        await channel.send(f'{message}')
