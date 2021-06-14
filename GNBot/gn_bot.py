@@ -1,7 +1,7 @@
 import os
 import time
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 
 
 class GNBot(commands.Cog):
