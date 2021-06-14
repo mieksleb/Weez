@@ -12,13 +12,18 @@ class GNBot(commands.Cog):
     token = os.environ.get('DISCORD_KEY')
 
     def __init__(self, bot: commands.Bot, messages: list):
+        """
+
+        :param bot: An instantiated object of Bot.
+        :param messages: A list of object containing messages to send to the Discord channel.
+        """
         self.bot = bot
         self.message = messages
 
     @commands.Cog.listener()
     async def on_ready(self):
         """
-        Print the messages into the discord server.
+        Send the messages into the discord server.
         :return: Message in the Discord server.
         """
         for message in self.message:
@@ -28,7 +33,8 @@ class GNBot(commands.Cog):
     async def gn(self, ctx, command: str):
         """
         Announce judgment to the voice channel.
-        :param ctx: discord context parameter
+        :param command: the name of the file to play.
+        :param ctx: discord context parameter.
         :return: JUDGMENT!
         """
         voice_channel = discord.utils.get(ctx.guild.voice_channels, name='General')
