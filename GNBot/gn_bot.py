@@ -18,12 +18,11 @@ class GNBot(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """
-        Print to the console to indicate the bot is now active.
-        :return:
+        Print the messages into the discord server.
+        :return: Message in the Discord server.
         """
         for message in self.message:
             await self.send_message(message)
-        print('Bot online')
 
     @commands.command()
     async def gn(self, ctx, command: str):
@@ -46,5 +45,10 @@ class GNBot(commands.Cog):
             await voice.disconnect()
 
     async def send_message(self, message):
+        """
+        Send a message into the desired channel ID.
+        :param message: The message to send to the server.
+        :return: None
+        """
         channel = self.bot.get_channel(730551428963237985)
         await channel.send(f'{message}')
