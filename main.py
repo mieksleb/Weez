@@ -3,8 +3,15 @@ from Analysis_Tools.weez_awards import WeezAwards
 from Analysis_Tools.weez_analysis import GNCalculator, get_sum_dict
 from Analysis_Tools.weez_reader import Player
 from CommunicationTools.weez_csv_processor import WeezCSV
+from CommunicationTools.emailer import Emailer
 from CommunicationTools.gn_bot import GNBot
 from discord.ext import commands
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+EMAIL = os.getenv('EMAIL')
+PASSWORD = os.getenv('PASSWORD')
 
 rumee_dict = {'name': 'Captain Ahmed', 'game_name': 'RumeeAhmed', 'platform': 'PSN'}
 mike_dict = {'name': 'The Golden God', 'game_name': 'Buttpunch69#5164309', 'platform': 'activision'}
@@ -42,3 +49,6 @@ bot.run(GNBot.token)
 
 weez_csv = WeezCSV(player_list)
 weez_csv.create_csv()
+
+emailer = Emailer(EMAIL, PASSWORD, 'RumeeAhmad@gmail.com', 'WeezingtonSilva', 'weez.csv')
+emailer.send_email('smtp.gmail.com', 587)
