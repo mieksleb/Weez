@@ -55,7 +55,7 @@ class Player:
         if self.judge:
             gn = f'{self.player_name} has hit his GN!'
         else:
-            gn = f'{self.player_name} has not hit his GN!'
+            gn = f'{self.player_name} has failed to hit his GN!'
 
         stats = f'Stats for {self.player_name}\n' \
                 f'{self.games_played} games played\n' \

@@ -57,7 +57,7 @@ following attributes:
 * ```self.bullet_bitch``` the Player that has received the most damage.
 * ```self.medic``` the Player with the most revives.
 * ```self.head_master``` the Player with the most headshots.
-* ```self.to_assister``` the Player with the most assists.
+* ```self.top_assister``` the Player with the most assists.
 * ```self.team_lover``` the Player with the most points.
 * ```self.team_hater``` the Player with the least points.
 * ```self.least_lethal_killer``` the Player that is the least effective. They require the most damage to kill another 
@@ -66,7 +66,8 @@ following attributes:
 * ```self.tank``` the Player that requires the most damage to kill.
 * ```self.gummy_bear``` the Player that requires the least damage to kill.
 * ```self.team_demolisher``` the Player that has the most team wipes.
-* ```self.pussio``` the Player that is the pussio.
+* ```self.serial_killer``` the Player that has the most last stand kills.
+* ```self.pussio``` the Player that is the pussi o.
 
 ---
 
