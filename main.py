@@ -2,8 +2,9 @@ from Scraper.weez_scraper import WeezScraper
 from Analysis_Tools.weez_awards import WeezAwards
 from Analysis_Tools.weez_analysis import GNCalculator, get_sum_dict
 from Analysis_Tools.weez_reader import Player
+from CommunicationTools.weez_csv_processor import WeezCSV
+from CommunicationTools.gn_bot import GNBot
 from discord.ext import commands
-from GNBot.gn_bot import GNBot
 
 rumee_dict = {'name': 'Captain Ahmed', 'game_name': 'RumeeAhmed', 'platform': 'PSN'}
 mike_dict = {'name': 'The Golden God', 'game_name': 'Buttpunch69#5164309', 'platform': 'activision'}
@@ -38,3 +39,6 @@ message_list.append(awards.show_results())
 bot = commands.Bot(command_prefix='!')
 bot.add_cog(GNBot(bot, message_list))
 bot.run(GNBot.token)
+
+weez_csv = WeezCSV(player_list)
+weez_csv.create_csv()

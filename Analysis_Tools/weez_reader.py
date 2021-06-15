@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class Player:
     """
     Object that represents a player and their stats for the session.
@@ -31,6 +34,8 @@ class Player:
         self.kills = int(overall_dict.get('Kills', 0))
         self.damage = int(overall_dict.get('Damage', 0).replace(',', ''))
         self.kd = float(overall_dict.get('K/D', 0))
+        year = datetime.now().strftime(' %Y')
+        self.date = overall_dict['Date'] + year
 
     def _process_sum_dict(self, sum_dict: dict):
         """
