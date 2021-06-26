@@ -43,12 +43,12 @@ awards = WeezAwards(player_list)
 awards.process_player_stats()
 message_list.append(awards.show_results())
 
-bot = commands.Bot(command_prefix='!')
-bot.add_cog(GNBot(bot, message_list))
-bot.run(GNBot.token)
-
 weez_csv = WeezCSV(player_list)
 weez_csv.create_csv()
 
-emailer = Emailer(EMAIL, PASSWORD, 'RumeeAhmad@gmail.com', 'WeezingtonSilva', 'weez.csv')
+emailer = Emailer(EMAIL, PASSWORD, 'Nickgreen100@hotmail.co.uk', 'WeezingtonSilva', 'weez.csv')
 emailer.send_email('smtp.gmail.com', 587)
+
+bot = commands.Bot(command_prefix='!')
+bot.add_cog(GNBot(bot, message_list))
+bot.run(GNBot.token)
