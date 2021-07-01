@@ -106,6 +106,7 @@ class WeezScraper(webdriver.Chrome):
         Scrape the stats from the first page for the current gaming session.
         :return: Selenium object containing the HTML data for the current sessions stats.
         """
+        self.implicitly_wait(5)
         stats = self.find_element_by_class_name('trn-gamereport-list__group')
         title_stats = stats.find_element_by_class_name('session-header')
         date_matches = title_stats.find_element_by_class_name('session-header__title').text
