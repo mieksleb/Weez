@@ -50,7 +50,6 @@ class Player:
         self.assists = int(sum_dict.get('Assists', 0))
         self.headshots = int(sum_dict.get('Headshots', 0))
         self.revives = int(sum_dict.get('Revives', 0))
-        self.last_stand_kills = int(sum_dict.get('Last Stand Kills', 0))
 
     def get_stats(self) -> str:
         """
@@ -74,7 +73,6 @@ class Player:
                 f'{self.headshots} Headshots\n'\
                 f'{self.revives} Revives\n'\
                 f'{self.teams_wiped} Teams Wiped\n'\
-                f'{self.last_stand_kills} Last Stand Kills\n'\
                 f'{gn}'
 
         return stats

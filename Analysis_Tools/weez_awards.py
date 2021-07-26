@@ -133,19 +133,6 @@ class WeezAwards:
                 self.team_demolisher = player.player_name
                 max_team_wipes = player.teams_wiped
 
-    def _get_serial_killer(self):
-        """
-        Calculate the Player with the most last stand kills in the session.
-        :return: None.
-        """
-        self.serial_killer = None
-        max_last_stand_kills = 0
-
-        for player in self.player_list:
-            if player.last_stand_kills > max_last_stand_kills:
-                self.serial_killer = player.player_name
-                max_last_stand_kills = player.last_stand_kills
-
     def process_player_stats(self):
         """
         Method that calls all the private methods to produce the awards.
@@ -161,10 +148,81 @@ class WeezAwards:
         self._get_team_demolisher()
         self._get_serial_killer()
 
-    def show_results(self) -> str:
+    def show_player_results(self) -> str:
         """
         Produce a string that shows the entire results of the awards.
         :return: String object that contains the awards.
+        """
+        results = f'{self.bullet_bitch} is the bullet bitch\n' \
+                  f'{self.medic} is the medic\n' \
+                  f'{self.head_master} is the headmaster\n' \
+                  f'{self.top_assister} is the top assister\n' \
+                  f'{self.team_lover} loves the team\n' \
+                  f'{self.team_hater} hates the team\n' \
+                  f'{self.lethal_killer} is the lethal killer\n' \
+                  f'{self.least_lethal_killer} is the least lethal killer\n' \
+                  f'{self.tank} is the tank\n' \
+                  f'{self.gummy_bear} is the gummy bear\n' \
+                  f'{self.team_demolisher} is the team demolisher\n' \
+                  f'{self.serial_killer} is the serial killer\n' \
+                  f'{self.pussio} is the pussi o\n'
+
+        return results
+
+    def get_team_stats(self):
+        self._get_total_team_stats()
+        self._get_team_average_match_stats()
+
+    def _get_total_team_stats(self):
+        """
+        Get the total team stats for the current session.
+        :return: None.
+        """
+        self.team_score = 0
+        self.team_kills = 0
+        self.team_deaths = 0
+        self.team_assists = 0
+        self.team_damage = 0
+        self.team_damage_taken = 0
+        self.team_headshots = 0
+        self.team_revives = 0
+        self.team_teams_wiped = 0
+
+        _average_team_kd = 0
+        self.average_team_kd = _average_team_kd / len(self.player_list)
+
+        for player in self.player_list:
+            self.team_score += player.score
+            self.team_kills += player.kills
+            self.team_deaths += player.deaths
+            self.team_assists += player.assists
+            self.team_damage += player.damage
+            self.team_damage_taken += player.damage_taken
+            self.team_headshots += player.headshots
+            self.team_revives += player.revives
+            self.team_teams_wiped += player.teams_wiped
+            _average_team_kd += player.kd
+
+    def _get_team_average_match_stats(self):
+        """
+        Get the average stats for the entire team per games played.
+        :return: None.
+        """
+        games_played = self.player_list[0].games_played
+        self.team_score_per_game = self.team_score / games_played
+        self.team_kills_per_game = self.team_kills / games_played
+        self.team_deaths_per_game = self.team_deaths / games_played
+        self.team_assists_per_game = self.team_assists / games_played
+        self.team_damage_per_game = self.team_damage / games_played
+        self.team_damage_taken_per_game = self.team_damage_per_game / games_played
+        self.team_headshots_per_game = self.team_headshots / games_played
+        self.team_revives_per_game = self.team_revives / games_played
+        self.team_wiped_per_game = self.team_teams_wiped / games_played
+
+    def _show_team_results(self) -> str:
+        """
+        Produce a string that shows the entire results the total team stats.
+        :return: String object that contains the total team stats.
         """
         results = f'{self.bullet_bitch} is the bullet bitch\n' \
                   f'{self.medic} is the medic\n' \
