@@ -1,3 +1,4 @@
+from AnalysisTools.weez_reader import Player
 import csv
 
 
@@ -6,7 +7,7 @@ class WeezCSV:
     Object that takes a Player's data and creates a csv file for recording long term data.
     """
 
-    def __init__(self, player_list: list):
+    def __init__(self, player_list: list[Player]):
         """
 
         :param player_list: A list object that contains other player objects.
