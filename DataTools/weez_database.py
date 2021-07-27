@@ -1,5 +1,5 @@
-from Analysis_Tools.weez_awards import WeezAwards
-from Analysis_Tools.weez_reader import Player
+from AnalysisTools.weez_awards import WeezAwards
+from AnalysisTools.weez_reader import Player
 from dotenv import load_dotenv
 import pyrebase
 import os

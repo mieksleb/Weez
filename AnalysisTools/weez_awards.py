@@ -1,4 +1,4 @@
-from Analysis_Tools.weez_reader import Player
+from AnalysisTools.weez_reader import Player
 
 
 class WeezAwards:

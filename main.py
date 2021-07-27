@@ -1,9 +1,9 @@
 from Scraper.weez_scraper import WeezScraper
-from Analysis_Tools.weez_analysis import GNCalculator, get_sum_dict
-from Analysis_Tools.weez_awards import WeezAwards
-from Analysis_Tools.weez_reader import Player
-from weez_database import WeezDatabase
-from CommunicationTools.gn_bot import GNBot
+from AnalysisTools.weez_analysis import GNCalculator, get_sum_dict
+from AnalysisTools.weez_awards import WeezAwards
+from AnalysisTools.weez_reader import Player
+from DataTools.weez_database import WeezDatabase
+from DataTools.gn_bot import GNBot
 from discord.ext import commands
 
 
