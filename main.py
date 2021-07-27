@@ -5,21 +5,7 @@ from Analysis_Tools.weez_reader import Player
 from weez_database import WeezDatabase
 from CommunicationTools.gn_bot import GNBot
 from discord.ext import commands
-from dotenv import load_dotenv
-import os
 
-# Load the environment variables
-load_dotenv()
-EMAIL = os.getenv('EMAIL')
-PASSWORD = os.getenv('PASSWORD')
-API_KEY = os.getenv('API_KEY')
-AUTH_DOMAIN = os.getenv('AUTH_DOMAIN')
-DATABASE_URL = os.getenv('DATABASE_URL')
-PROJECT_ID = os.getenv('PROJECT_ID')
-STORAGE_BUCKET = os.getenv('STORAGE_BUCKET')
-MESSAGING_SENDER_ID = os.getenv('MESSAGING_SENDER_ID')
-APP_ID = os.getenv('APP_ID')
-MEASUREMENT_ID = os.getenv('MEASUREMENT_ID')
 
 #  Create the player dicts with game details
 rumee_dict = {'name': 'Captain Ahmed', 'game_name': 'RumeeAhmed', 'platform': 'PSN'}

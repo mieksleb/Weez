@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
+from datetime import datetime
 import os
 
 
@@ -77,7 +78,7 @@ class WeezScraper(webdriver.Chrome):
         that users stats page.
         :return: None
         """
-
+        self.implicitly_wait(5)
         self.find_element_by_xpath(
             '//*[@id="app"]/div[2]/div[2]/div/main/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div[1]/div/div[2]'
         ).click()
@@ -113,6 +114,7 @@ class WeezScraper(webdriver.Chrome):
 
         date, matches_played = date_matches.split('\n')
         matches_played = int(matches_played)
+        date_processed = self._process_raw_date(date)
 
         generic_rankings = title_stats.find_element_by_class_name('session-header__summary').text
         wins, top_5 = generic_rankings.split('\n')
@@ -120,7 +122,7 @@ class WeezScraper(webdriver.Chrome):
         wins = wins[0]
         top_5 = top_5[0]
 
-        self.overall_stats = {'Date': date, 'Matches Played': matches_played, 'Wins': wins, 'Top 5': top_5}
+        self.overall_stats = {'Date': date_processed, 'Matches Played': matches_played, 'Wins': wins, 'Top 5': top_5}
 
         self.implicitly_wait(5)
         overall_stats_raw = stats.find_elements_by_class_name('session-header__stats-stat')
@@ -145,6 +147,19 @@ class WeezScraper(webdriver.Chrome):
             buttons[i].click()
             extra_stats = self._scrape_individual_match_stats()
             self.match_stats[i].update(extra_stats)
+
+    @staticmethod
+    def _process_raw_date(scraped_date: str) -> str:
+        """
+        Format the scraped_date which is a partial date missing the year into a datetime object.
+        :param scraped_date: a string value containing the scraped date of the website.
+        :return: a string object referring to the date the current scrapped session.
+        """
+        month, day = scraped_date.split(' ')
+        year = datetime.now().strftime('%Y')
+        date_parsed = datetime.strptime(f'{day} {month} {year}', '%d %b %Y')
+        date_played = date_parsed.strftime('%Y-%m-%d')
+        return date_played
 
     def _scrape_individual_match_stats(self):
         """
