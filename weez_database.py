@@ -1,6 +1,7 @@
-import pyrebase
+from Analysis_Tools.weez_awards import WeezAwards
 from Analysis_Tools.weez_reader import Player
 from dotenv import load_dotenv
+import pyrebase
 import os
 load_dotenv()
 
@@ -67,3 +68,25 @@ class WeezDatabase:
                 'gn': gn,
             }
             self.db.child('games').child(player.date).child(player.player_name).set(game)
+
+    def add_awards(self, awards: WeezAwards):
+        """
+        Add the awards generated from a session to the Firebase database under the`awards` collection in
+        :param awards: an instance of the WeezAwards object.
+        :return: None
+        """
+        data = {
+            'bullet_bitch': awards.bullet_bitch,
+            'medic': awards.medic,
+            'head_master': awards.head_master,
+            'top_assister': awards.head_master,
+            'team_lover': awards.team_lover,
+            'team_hater': awards.team_hater,
+            'lethal_killer': awards.lethal_killer,
+            'least_lethal_killer': awards.least_lethal_killer,
+            'tank': awards.tank,
+            'gummy_bear': awards.gummy_bear,
+            'team_demolisher': awards.team_lover,
+            'pussio': awards.pussio,
+        }
+        self.db.child('awards').child(awards.date).set(data)

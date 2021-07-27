@@ -1,15 +1,19 @@
+from Analysis_Tools.weez_reader import Player
+
+
 class WeezAwards:
     """
     Object that calculates various award metrics for a Player.
     """
 
-    def __init__(self, player_list: list):
+    def __init__(self, player_list: list[Player]):
         """
 
         :param player_list: a list object containing Player objects.
         """
         self.player_list = player_list
         self.pussio = 'Cheen'
+        self.date = player_list[0].date
 
     def _get_bullet_bitch(self):
         """
@@ -146,7 +150,6 @@ class WeezAwards:
         self._get_lethality()
         self._get_tank()
         self._get_team_demolisher()
-        self._get_serial_killer()
 
     def show_player_results(self) -> str:
         """
@@ -164,7 +167,6 @@ class WeezAwards:
                   f'{self.tank} is the tank\n' \
                   f'{self.gummy_bear} is the gummy bear\n' \
                   f'{self.team_demolisher} is the team demolisher\n' \
-                  f'{self.serial_killer} is the serial killer\n' \
                   f'{self.pussio} is the pussi o\n'
 
         return results
@@ -235,7 +237,6 @@ class WeezAwards:
                   f'{self.tank} is the tank\n' \
                   f'{self.gummy_bear} is the gummy bear\n' \
                   f'{self.team_demolisher} is the team demolisher\n' \
-                  f'{self.serial_killer} is the serial killer\n' \
                   f'{self.pussio} is the pussi o\n'
 
         return results

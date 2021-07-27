@@ -46,6 +46,7 @@ message_list.append(awards.show_player_results())
 # Initialise and upload the data to the Firebase database.
 db = WeezDatabase()
 db.add_games(player_list)
+db.add_awards(awards)
 
 # Initialise the bot and then pass through the message list to be printed in the channel.
 bot = commands.Bot(command_prefix='!')
