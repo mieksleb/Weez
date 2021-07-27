@@ -1,19 +1,31 @@
 from Scraper.weez_scraper import WeezScraper
-from Analysis_Tools.weez_awards import WeezAwards
 from Analysis_Tools.weez_analysis import GNCalculator, get_sum_dict
+from Analysis_Tools.weez_awards import WeezAwards
 from Analysis_Tools.weez_reader import Player
+from weez_database import WeezDatabase
 from CommunicationTools.gn_bot import GNBot
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
 
+# Load the environment variables
 load_dotenv()
 EMAIL = os.getenv('EMAIL')
 PASSWORD = os.getenv('PASSWORD')
+API_KEY = os.getenv('API_KEY')
+AUTH_DOMAIN = os.getenv('AUTH_DOMAIN')
+DATABASE_URL = os.getenv('DATABASE_URL')
+PROJECT_ID = os.getenv('PROJECT_ID')
+STORAGE_BUCKET = os.getenv('STORAGE_BUCKET')
+MESSAGING_SENDER_ID = os.getenv('MESSAGING_SENDER_ID')
+APP_ID = os.getenv('APP_ID')
+MEASUREMENT_ID = os.getenv('MEASUREMENT_ID')
 
+#  Create the player dicts with game details
 rumee_dict = {'name': 'Captain Ahmed', 'game_name': 'RumeeAhmed', 'platform': 'PSN'}
 mike_dict = {'name': 'The Golden God', 'game_name': 'Buttpunch69#5164309', 'platform': 'activision'}
 neen_dict = {'name': 'Cheen', 'game_name': 'mininick green#5504512', 'platform': 'activision'}
+# tibbey_dict = {'name': 'Alex Ceferin', 'game_name': 'tibbey#5419185', 'platform': 'activision'}
 dict_list = [rumee_dict, mike_dict, neen_dict]
 
 message_list = []
@@ -44,6 +56,10 @@ for player_dict in dict_list:
 awards = WeezAwards(player_list)
 awards.process_player_stats()
 message_list.append(awards.show_player_results())
+
+# Initialise and upload the data to the Firebase database.
+db = WeezDatabase()
+db.add_games(player_list)
 
 # Initialise the bot and then pass through the message list to be printed in the channel.
 bot = commands.Bot(command_prefix='!')
