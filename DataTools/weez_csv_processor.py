@@ -21,10 +21,14 @@ class WeezCSV:
         """
         player_data = []
         for player in self.player_list:
+            if player.gn:
+                gn = 'TRUE'
+            else:
+                gn = 'FALSE'
             row = [
                 player.player_name, player.date, player.games_played, player.score, player.kills, player.deaths,
                 player.assists, player.kd, player.damage, player.damage_taken, player.headshots, player.revives,
-                player.teams_wiped, player.last_stand_kills
+                player.teams_wiped, gn
             ]
             player_data.append(row)
 
