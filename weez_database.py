@@ -1,61 +1,51 @@
-import sqlite3
-
-from Analysis_Tools.weez_reader import Player
-
-
-class WeezDatabaseX:
-
-    def __init__(self, db: str):
-        """
-
-        :param db: string object that represents the location of the database.
-        """
-        self.connection = sqlite3.connect(db)
-        self.cursor = self.connection.cursor()
-        self.create_games_table()
-
-    def create_games_table(self):
-        self.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS games "
-            "(id INTEGER PRIMARY KEY, player TEXT, date TEXT, kills INTEGER, deaths INTEGER, assists INTEGER, "
-            "damage INTEGER, damage_taken INTEGER, kd REAL, headshots INTEGER, revives INTEGER, teams_wiped INTEGER,"
-            "gn INTEGER)"
-        )
-        self.commit_and_close(self.connection)
-
-    def add_entry_to_games(
-            self, player: str, date: str, kills: int, deaths: int, assists: int, damage: int, damage_taken: int,
-            kd: float, headshots: int, revives: int, teams_wiped: int, gn: int
-    ):
-        self.cursor.execute(
-            "INSERT INTO games VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)",
-            (player, date, kills, deaths, assists, damage, damage_taken, kd, headshots, revives, teams_wiped, gn)
-        )
-        self.commit_and_close(self.connection)
-
-    @staticmethod
-    def commit_and_close(connection):
-        connection.commit()
-
-    def __del__(self):
-        self.connection.close()
-
-
-db = WeezDatabaseX('weez.db')
-
-
 import pyrebase
-
-
+from Analysis_Tools.weez_reader import Player
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 
 class WeezDatabase:
+    """
+    Object that handles data storage into Firebase.
+    """
 
-    def __init__(self, firebase_config: dict):
-        self.firebase = pyrebase.initialize_app(firebase_config)
+    API_KEY = os.getenv('API_KEY')
+    AUTH_DOMAIN = os.getenv('AUTH_DOMAIN')
+    DATABASE_URL = os.getenv('DATABASE_URL')
+    PROJECT_ID = os.getenv('PROJECT_ID')
+    STORAGE_BUCKET = os.getenv('STORAGE_BUCKET')
+    MESSAGING_SENDER_ID = os.getenv('MESSAGING_SENDER_ID')
+    APP_ID = os.getenv('APP_ID')
+    MEASUREMENT_ID = os.getenv('MEASUREMENT_ID')
+
+    def __init__(self):
+        self._initialize_app()
         self.db = self.firebase.database()
 
+    def _initialize_app(self):
+        """
+        Load the environment variables and initialise the connection to Firebase.
+        :return: None.
+        """
+        firebase_config = {
+            'apiKey': self.API_KEY,
+            'authDomain': self.AUTH_DOMAIN,
+            'databaseURL': self.DATABASE_URL,
+            'projectId': self.PROJECT_ID,
+            'storageBucket': self.STORAGE_BUCKET,
+            'messagingSenderId': self.MESSAGING_SENDER_ID,
+            'appId': self.APP_ID,
+            'measurementId': self.MEASUREMENT_ID,
+        }
+        self.firebase = pyrebase.initialize_app(firebase_config)
+
     def add_games(self, player_list: list[Player]):
+        """
+        Add a game session to the Firebase database under the `games` collection.
+        :param player_list: a list containing player objects.
+        :return: None.
+        """
         for player in player_list:
             if player.gn:
                 gn = 'TRUE'
