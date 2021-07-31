@@ -127,13 +127,13 @@ class Team:
         :return: None.
         """
         games_played = self.player_list[0].games_played
-        self.team_score_per_game = self.team_score / games_played
-        self.team_kills_per_game = self.team_kills / games_played
-        self.team_deaths_per_game = self.team_deaths / games_played
-        self.team_assists_per_game = self.team_assists / games_played
-        self.team_damage_per_game = self.team_damage / games_played
-        self.team_damage_taken_per_game = self.team_damage_per_game / games_played
-        self.team_headshots_per_game = self.team_headshots / games_played
-        self.team_revives_per_game = self.team_revives / games_played
-        self.teams_wiped_per_game = self.team_teams_wiped / games_played
-        self.average_team_kd_per_game = self.average_team_kd / games_played
+        self.team_score_per_game = round(self.team_score / games_played, 2)
+        self.team_kills_per_game = round(self.team_kills / games_played, 2)
+        self.team_deaths_per_game = round(self.team_deaths / games_played, 2)
+        self.team_assists_per_game = round(self.team_assists / games_played, 2)
+        self.team_damage_per_game = round(self.team_damage / games_played, 2)
+        self.team_damage_taken_per_game = round(self.team_damage_per_game / games_played, 2)
+        self.team_headshots_per_game = round(self.team_headshots / games_played, 2)
+        self.team_revives_per_game = round(self.team_revives / games_played, 2)
+        self.teams_wiped_per_game = round(self.team_teams_wiped / games_played, 2)
+        self.average_team_kd_per_game = round(self.average_team_kd / games_played, 2)

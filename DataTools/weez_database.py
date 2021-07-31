@@ -103,15 +103,15 @@ class WeezDatabase:
         :return: None.
         """
         data = {
-            'team_score_per_game': round(team.team_score_per_game, 2),
-            'team_kills_per_game': round(team.team_kills_per_game, 2),
-            'team_deaths_per_game': round(team.team_deaths_per_game, 2),
-            'team_assists_per_game': round(team.team_assists_per_game, 2),
-            'team_damage_per_game': round(team.team_damage_per_game, 2),
-            'team_damage_taken_per_game': round(team.team_damage_taken_per_game, 2),
-            'team_headshots_per_game': round(team.team_headshots_per_game, 2),
-            'team_revives_per_game': round(team.team_revives_per_game, 2),
-            'teams_wiped_per_game': round(team.teams_wiped_per_game, 2),
-            'team_kd_average_per_game': round(team.average_team_kd_per_game, 2),
+            'team_score_per_game': team.team_score_per_game,
+            'team_kills_per_game': team.team_kills_per_game,
+            'team_deaths_per_game': team.team_deaths_per_game,
+            'team_assists_per_game': team.team_assists_per_game,
+            'team_damage_per_game': team.team_damage_per_game,
+            'team_damage_taken_per_game': team.team_damage_taken_per_game,
+            'team_headshots_per_game': team.team_headshots_per_game,
+            'team_revives_per_game': team.team_revives_per_game,
+            'teams_wiped_per_game': team.teams_wiped_per_game,
+            'team_kd_average_per_game': team.average_team_kd_per_game,
         }
         self.db.collection('team_stats_per_game').document(team.date).set(data)
