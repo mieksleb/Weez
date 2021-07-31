@@ -155,10 +155,13 @@ class WeezScraper(webdriver.Chrome):
         :param scraped_date: a string value containing the scraped date of the website.
         :return: a string object referring to the date the current scrapped session.
         """
-        month, day = scraped_date.split(' ')
-        year = datetime.now().strftime('%Y')
-        date_parsed = datetime.strptime(f'{day} {month} {year}', '%d %b %Y')
-        date_played = date_parsed.strftime('%Y-%m-%d')
+        if scraped_date.lower() == 'today':
+            date_played = datetime.now().strftime('%Y-%m-%d')
+        else:
+            month, day = scraped_date.split(' ')
+            year = datetime.now().strftime('%Y')
+            date_parsed = datetime.strptime(f'{day} {month} {year}', '%d %b %Y')
+            date_played = date_parsed.strftime('%Y-%m-%d')
         return date_played
 
     def _scrape_individual_match_stats(self):
