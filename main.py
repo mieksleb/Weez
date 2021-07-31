@@ -1,7 +1,7 @@
 from Scraper.weez_scraper import WeezScraper
 from AnalysisTools.weez_analysis import GNCalculator, get_sum_dict
 from AnalysisTools.weez_awards import WeezAwards
-from AnalysisTools.weez_reader import Player
+from AnalysisTools.weez_reader import Player, Team
 from DataTools.weez_database import WeezDatabase
 from DataTools.gn_bot import GNBot
 from discord.ext import commands
@@ -43,10 +43,15 @@ awards = WeezAwards(player_list)
 awards.process_player_stats()
 message_list.append(awards.show_player_results())
 
+# Initialise the team object and process the team stats.
+team = Team(player_list)
+team.process_team_stats()
+
 # Initialise and upload the data to the Firebase database.
 db = WeezDatabase()
 db.add_games(player_list)
 db.add_awards(awards)
+db.add_team(team)
 
 # Initialise the bot and then pass through the message list to be printed in the channel.
 bot = commands.Bot(command_prefix='!')
