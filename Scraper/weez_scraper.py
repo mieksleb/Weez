@@ -33,7 +33,7 @@ class WeezScraper(webdriver.Chrome):
         self.username = username
         self.platform = platform.lower()
 
-    def _make_request(self):
+    def _make_request(self) -> None:
         """
         Perform a get request on self._url.
         :return: Open Chrome browser and navigate to self._url.
@@ -42,7 +42,7 @@ class WeezScraper(webdriver.Chrome):
         self._bypass_personal_data_request()
         self._bypass_gdpr()
 
-    def _bypass_gdpr(self):
+    def _bypass_gdpr(self) -> None:
         """
         The first page is often a GDPR policy page, this method will click and then suppress the page.
         :return: None
@@ -57,7 +57,7 @@ class WeezScraper(webdriver.Chrome):
         except NoSuchElementException:
             pass
 
-    def _bypass_personal_data_request(self):
+    def _bypass_personal_data_request(self) -> None:
         """
         The first page is often a GDPR policy page, this method will click and then suppress the page.
         :return: None
@@ -72,7 +72,7 @@ class WeezScraper(webdriver.Chrome):
         except Exception:
             pass
 
-    def _search_warzone(self):
+    def _search_warzone(self) -> None:
         """
         Perform a search on the Warzone website with self.username and self.platform which then takes the browser to
         that users stats page.
@@ -102,7 +102,7 @@ class WeezScraper(webdriver.Chrome):
         search.send_keys(self.username)
         search.send_keys(Keys.RETURN)
 
-    def _scrape_stats(self):
+    def _scrape_stats(self) -> None:
         """
         Scrape the stats from the first page for the current gaming session.
         :return: Selenium object containing the HTML data for the current sessions stats.
@@ -164,7 +164,7 @@ class WeezScraper(webdriver.Chrome):
             date_played = date_parsed.strftime('%Y-%m-%d')
         return date_played
 
-    def _scrape_individual_match_stats(self):
+    def _scrape_individual_match_stats(self) -> dict:
         """
         This will scrape the individual match stats per entry from the matches played.
         :return: Dictionary object containing the detailed match stats.
@@ -191,7 +191,7 @@ class WeezScraper(webdriver.Chrome):
         self.back()
         return detailed_match_stats
 
-    def scrape(self):
+    def scrape(self) -> None:
         """
         Public method to execute all the protected methods and then scrape the stats.
         :return: Players' Warzone stats.
