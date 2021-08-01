@@ -107,7 +107,6 @@ class Team:
         self.team_headshots = 0
         self.team_revives = 0
         self.team_teams_wiped = 0
-        self.average_team_kd = 0
 
         for player in self.player_list:
             self.team_score += player.score
@@ -119,7 +118,8 @@ class Team:
             self.team_headshots += player.headshots
             self.team_revives += player.revives
             self.team_teams_wiped += player.teams_wiped
-            self.average_team_kd += player.kd
+
+        self.average_team_kd = self.team_kills / self.team_deaths
 
     def _get_team_average_match_stats(self) -> None:
         """
@@ -136,4 +136,4 @@ class Team:
         self.team_headshots_per_game = round(self.team_headshots / games_played, 2)
         self.team_revives_per_game = round(self.team_revives / games_played, 2)
         self.teams_wiped_per_game = round(self.team_teams_wiped / games_played, 2)
-        self.average_team_kd_per_game = round(self.average_team_kd / games_played, 2)
+        self.average_team_kd_per_game = self.average_team_kd
