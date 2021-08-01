@@ -1,10 +1,11 @@
-from Scraper.weez_scraper import WeezScraper
 from AnalysisTools.weez_analysis import GNCalculator, get_sum_dict
-from AnalysisTools.weez_awards import WeezAwards
 from AnalysisTools.weez_reader import Player, Team
 from DataTools.weez_database import WeezDatabase
+from AnalysisTools.weez_awards import WeezAwards
+from Scraper.weez_scraper import WeezScraper
 from DataTools.gn_bot import GNBot
 from discord.ext import commands
+import sys
 
 
 #  Create the player dicts with game details
@@ -57,3 +58,7 @@ db.add_team(team)
 bot = commands.Bot(command_prefix='!')
 bot.add_cog(GNBot(bot, message_list))
 bot.run(GNBot.token)
+bot.close()
+
+# Exit the program
+sys.exit()
