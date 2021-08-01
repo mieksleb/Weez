@@ -132,7 +132,7 @@ class Team:
         self.team_deaths_per_game = round(self.team_deaths / games_played, 2)
         self.team_assists_per_game = round(self.team_assists / games_played, 2)
         self.team_damage_per_game = round(self.team_damage / games_played, 2)
-        self.team_damage_taken_per_game = round(self.team_damage_per_game / games_played, 2)
+        self.team_damage_taken_per_game = round(self.team_damage_taken / games_played, 2)
         self.team_headshots_per_game = round(self.team_headshots / games_played, 2)
         self.team_revives_per_game = round(self.team_revives / games_played, 2)
         self.teams_wiped_per_game = round(self.team_teams_wiped / games_played, 2)
