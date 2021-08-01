@@ -31,7 +31,6 @@ def get_sum_dict(player: Player, match_stats: list) -> dict:
         total_dict['Score'] += float(stat.get('Score', 0).replace(',', ''))
         total_dict['Teams Wiped'] += float(stat.get('Teams Wiped', 0))
         total_dict['Revives'] += float(stat.get('Revives', 0))
-
     return total_dict
 
 

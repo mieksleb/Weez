@@ -119,7 +119,7 @@ class Team:
             self.team_revives += player.revives
             self.team_teams_wiped += player.teams_wiped
 
-        self.average_team_kd = self.team_kills / self.team_deaths
+        self.average_team_kd = round(self.team_kills / self.team_deaths, 2)
 
     def _get_team_average_match_stats(self) -> None:
         """
