@@ -47,7 +47,7 @@ class WeezScraper(webdriver.Chrome):
         The first page is often a GDPR policy page, this method will click and then suppress the page.
         :return: None
         """
-
+        self.implicitly_wait(5)
         try:
             button = WebDriverWait(self, 10).until(
                 EC.presence_of_element_located((By.ID, 'onetrust-accept-btn-handler'))
@@ -63,6 +63,7 @@ class WeezScraper(webdriver.Chrome):
         :return: None
         """
 
+        self.implicitly_wait(5)
         try:
             button = WebDriverWait(self, 10).until(
                 EC.presence_of_element_located((By.LINK_TEXT, 'Continue to Site'))
