@@ -54,7 +54,7 @@ class WeezDatabase:
                 'teams_wiped': player.teams_wiped,
                 'gn': player.judge,
             }
-            self.db.collection('gamesx').document(player.date).collection(player.player_name).document('stats').set(game)
+            self.db.collection('games').document(player.date).collection(player.player_name).document('stats').set(game)
 
     def add_awards(self, awards: WeezAwards) -> None:
         """
@@ -76,7 +76,7 @@ class WeezDatabase:
             'team_demolisher': awards.team_demolisher,
             'pussio': awards.pussio,
         }
-        self.db.collection('awardsx').document(awards.date).set(data)
+        self.db.collection('awards').document(awards.date).set(data)
 
     def add_team(self, team: Team) -> None:
         """
@@ -105,7 +105,7 @@ class WeezDatabase:
             'team_teams_wiped': team.team_teams_wiped,
             'team_kd_average': team.average_team_kd,
         }
-        self.db.collection('total_team_statsx').document(team.date).set(data)
+        self.db.collection('total_team_stats').document(team.date).set(data)
 
     def _add_team_stats_per_game(self, team: Team) -> None:
         """
@@ -125,4 +125,4 @@ class WeezDatabase:
             'teams_wiped_per_game': team.teams_wiped_per_game,
             'team_kd_average_per_game': team.average_team_kd_per_game,
         }
-        self.db.collection('team_stats_per_gamex').document(team.date).set(data)
+        self.db.collection('team_stats_per_game').document(team.date).set(data)
