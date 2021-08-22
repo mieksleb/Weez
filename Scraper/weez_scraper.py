@@ -104,13 +104,19 @@ class WeezScraper(webdriver.Chrome):
         search.send_keys(self.username)
         search.send_keys(Keys.RETURN)
 
-    def _load_more_matches(self) -> None:
+    def _view_all_matches(self) -> None:
         """
-        Press the 'View all matches` button and then press the Load More Matches button on the next page.
+        Press the 'View all matches` button.
         :return:
         """
         self.implicitly_wait(5)
         self.find_element_by_class_name('trn-gamereport-list__group-more').click()
+
+    def _load_more_matches(self) -> None:
+        """
+        Press the `Load More Matches` button.
+        :return:
+        """
         time.sleep(5)
         matches_container = self.find_elements_by_class_name('trn-gamereport-list__group')
         matches_container[-1].find_element_by_class_name('trn-button').click()
@@ -120,6 +126,7 @@ class WeezScraper(webdriver.Chrome):
         Scrape the stats from the first page for the current gaming session.
         :return: Selenium object containing the HTML data for the current sessions stats.
         """
+        time.sleep(5)
         self.implicitly_wait(5)
         stats = self.find_element_by_class_name('trn-gamereport-list__group')
         title_stats = stats.find_element_by_class_name('session-header')
@@ -159,6 +166,8 @@ class WeezScraper(webdriver.Chrome):
             buttons = match.find_elements_by_class_name('match-row__link')
             buttons[i].click()
             extra_stats = self._scrape_individual_match_stats()
+            if i > 15:
+                self._load_more_matches()
             self.match_stats[i].update(extra_stats)
 
     @staticmethod
@@ -211,6 +220,7 @@ class WeezScraper(webdriver.Chrome):
         """
         self._make_request()
         self._search_warzone()
+        self._view_all_matches()
         self._load_more_matches()
         self._scrape_stats()
         self.quit()
