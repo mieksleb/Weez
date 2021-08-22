@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime
+import time
 import os
 
 
@@ -103,6 +104,17 @@ class WeezScraper(webdriver.Chrome):
         search.send_keys(self.username)
         search.send_keys(Keys.RETURN)
 
+    def _load_more_matches(self) -> None:
+        """
+        Press the 'View all matches` button and then press the Load More Matches button on the next page.
+        :return:
+        """
+        self.implicitly_wait(5)
+        self.find_element_by_class_name('trn-gamereport-list__group-more').click()
+        time.sleep(5)
+        matches_container = self.find_elements_by_class_name('trn-gamereport-list__group')
+        matches_container[-1].find_element_by_class_name('trn-button').click()
+
     def _scrape_stats(self) -> None:
         """
         Scrape the stats from the first page for the current gaming session.
@@ -199,5 +211,6 @@ class WeezScraper(webdriver.Chrome):
         """
         self._make_request()
         self._search_warzone()
+        self._load_more_matches()
         self._scrape_stats()
         self.quit()
