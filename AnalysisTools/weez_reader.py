@@ -5,52 +5,84 @@ class Player:
     def __init__(self, player_name: str):
         """
 
-        :param player_name: The name of the player.
+        :param player_name: a string object that represents the name of the
+        player.
         """
         self.player_name = player_name
         self.gn = None
         self.judge = False
 
-    def add_dicts(self, overall_dict: dict, sum_dict: dict) -> None:
+    def process_stats(self, stats: dict) -> None:
         """
-        Add the dictionary data as the player attributes.
-        :param overall_dict: The dictionary object that contains the overall data for the session.
-        :param sum_dict: The dictionary object that contains the sum of all the match data for the session.
-        :return: None
+        Process all the raw stats and then sum them all up for the player.
+        :param stats: a dictionary object that contains all the players
+        individual match data.
+        :return: None.
         """
-        self._process_overall_dict(overall_dict)
-        self._process_sum_dict(sum_dict)
+        sum = {
+            'Assists': 0,
+            'Crates Opened': 0,
+            'Damage': 0,
+            'Damage Taken': 0,
+            'Date': stats[0].get('datePlayed', None),
+            'Deaths': 0,
+            'Distance Travelled': 0,
+            'Headshots': 0,
+            'Kills': 0,
+            'Matches Played': len(stats),
+            'Name': self.player_name,
+            'Revives': 0,
+            'Shop Buys': 0,
+            'Score': 0,
+            'Teams Wiped': 0,
+            'Time Spent Moving': 0,
+        }
 
-    def _process_overall_dict(self, overall_dict: dict) -> None:
-        """
-        Process the overall_dict data into class attributes.
-        :param overall_dict: The dictionary object that contains the overall data for the session.
-        :return: None
-        """
-        self.games_played = int(overall_dict.get('Matches Played', 0))
-        self.kills = int(overall_dict.get('Kills', 0))
-        self.damage = int(overall_dict.get('Damage', 0).replace(',', ''))
-        self.kd = float(overall_dict.get('K/D', 0))
-        self.date = overall_dict['Date']
+        for stat in stats:
+            sum['Assists'] += float(stat.get('assists', 0))
+            sum['Crates Opened'] += float(stat.get('objectiveBrCacheOpen', 0))
+            sum['Damage'] += float(stat.get('damageDone', 0))
+            sum['Damage Taken'] += float(stat.get('damageTaken', 0))
+            sum['Deaths'] += float(stat.get('deaths', 0))
+            sum['Distance Travelled'] += float(stat.get('distanceTraveled', 0))
+            sum['Headshots'] += float(stat.get('headshots', 0))
+            sum['Kills'] += float(stat.get('kills', 0))
+            sum['Revives'] += float(stat.get('objectiveReviver', 0))
+            sum['Shop Buys'] += float(stat.get('objectiveBrKioskBuy', 0))
+            sum['Score'] += float(stat.get('score', 0))
+            sum['Teams Wiped'] += float(stat.get('objectiveTeamWiped', 0))
+            sum['Time Spent Moving'] += float(stat.get('percentTimeMoving', 0))
 
-    def _process_sum_dict(self, sum_dict: dict) -> None:
+        self._process_attributes(sum)
+
+    def _process_attributes(self, summed_stats: dict) -> None:
         """
-        Process the sum_dict data into class attributes.
-        :param sum_dict: The dictionary object that contains the sum of all the match data for the session.
+        Process the summed dictionary and convert them into attributes.
+        :param summed_stats: a dictionary object containing all the summed up
+        stats for the player.
         :return: None
         """
-        self.deaths = int(sum_dict.get('Deaths', 0))
-        self.damage_taken = int(sum_dict.get('Damage Taken', 0))
-        self.score = int(sum_dict.get('Score', 0))
-        self.teams_wiped = int(sum_dict.get('Teams Wiped', 0))
-        self.assists = int(sum_dict.get('Assists', 0))
-        self.headshots = int(sum_dict.get('Headshots', 0))
-        self.revives = int(sum_dict.get('Revives', 0))
+        self.games_played = summed_stats.get('Matches Played', 0)
+        self.assists = round(summed_stats.get('Assists', 0))
+        self.crates_opened = round(summed_stats.get('Crates Opened', 0))
+        self.damage = round(summed_stats.get('Damage', 0))
+        self.damage_taken = round(summed_stats.get('Damage Taken', 0))
+        self.date = summed_stats.get('Date', None)
+        self.deaths = round(summed_stats.get('Deaths', 0))
+        self.distance_travelled = round(summed_stats.get('Distance Travelled', 0))
+        self.headshots = round(summed_stats.get('Headshots', 0))
+        self.kills = round(summed_stats.get('Kills', 0))
+        self.kd = round(self.kills / self.deaths, 2)
+        self.revives = round(summed_stats.get('Revives', 0))
+        self.shop_buys = round(summed_stats.get('Shop Buys', 0))
+        self.score = round(summed_stats.get('Score', 0))
+        self.teams_wiped = round(summed_stats.get('Teams Wiped', 0))
+        self.time_moving = round(summed_stats.get('Time Spent Moving', 0))
 
     def get_stats(self) -> str:
         """
-        Get all the Player's stats and put it into an object.
-        :return: A string object containing all of the Player's stats.
+        Get all the Player's stats and put it into a string object.
+        :return: A string object containing all the Player's stats.
         """
         if self.judge:
             gn = f'{self.player_name} has hit his GN!'
@@ -69,6 +101,10 @@ class Player:
                 f'{self.headshots} Headshots\n'\
                 f'{self.revives} Revives\n'\
                 f'{self.teams_wiped} Teams Wiped\n'\
+                f'{self.distance_travelled} Distance Travelled\n'\
+                f'{self.time_moving} Time Moving Percent\n'\
+                f'{self.crates_opened} Crates Opened\n'\
+                f'{self.shop_buys} Shop Buys\n'\
                 f'{gn}'
         return stats
 
@@ -126,14 +162,14 @@ class Team:
         Get the average stats for the entire team per games played.
         :return: None.
         """
-        games_played = self.player_list[0].games_played
-        self.team_score_per_game = round(self.team_score / games_played, 2)
-        self.team_kills_per_game = round(self.team_kills / games_played, 2)
-        self.team_deaths_per_game = round(self.team_deaths / games_played, 2)
-        self.team_assists_per_game = round(self.team_assists / games_played, 2)
-        self.team_damage_per_game = round(self.team_damage / games_played, 2)
-        self.team_damage_taken_per_game = round(self.team_damage_taken / games_played, 2)
-        self.team_headshots_per_game = round(self.team_headshots / games_played, 2)
-        self.team_revives_per_game = round(self.team_revives / games_played, 2)
-        self.teams_wiped_per_game = round(self.team_teams_wiped / games_played, 2)
+        games = self.player_list[0].games_played
+        self.team_score_per_game = round(self.team_score / games, 2)
+        self.team_kills_per_game = round(self.team_kills / games, 2)
+        self.team_deaths_per_game = round(self.team_deaths / games, 2)
+        self.team_assists_per_game = round(self.team_assists / games, 2)
+        self.team_damage_per_game = round(self.team_damage / games, 2)
+        self.team_damage_taken_per_game = round(self.team_damage_taken / games, 2)
+        self.team_headshots_per_game = round(self.team_headshots / games, 2)
+        self.team_revives_per_game = round(self.team_revives / games, 2)
+        self.teams_wiped_per_game = round(self.team_teams_wiped / games, 2)
         self.average_team_kd_per_game = self.average_team_kd
