@@ -1,5 +1,5 @@
-from AnalysisTools.weez_reader import Player
 import numpy as np
+from AnalysisTools.weez_reader import Player
 
 
 class GNCalculator:
