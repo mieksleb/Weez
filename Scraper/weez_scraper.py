@@ -107,7 +107,7 @@ class WeezScraper(webdriver.Chrome):
     def _view_all_matches(self) -> None:
         """
         Press the 'View all matches` button.
-        :return:
+        :return: None.
         """
         self.implicitly_wait(5)
         self.find_element_by_class_name('trn-gamereport-list__group-more').click()
@@ -115,7 +115,7 @@ class WeezScraper(webdriver.Chrome):
     def _load_more_matches(self) -> None:
         """
         Press the `Load More Matches` button.
-        :return:
+        :return: None.
         """
         time.sleep(5)
         matches_container = self.find_elements_by_class_name('trn-gamereport-list__group')

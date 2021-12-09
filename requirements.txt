@@ -1,5 +1,7 @@
 discord~=1.7.3
-selenium~=3.141.0
+selenium==4.1.0
 numpy~=1.21.1
 python-dotenv~=0.19.0
 pyrebase4~=4.5.0
+firebase_admin
+requests~=2.26.0
